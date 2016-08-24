@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/poi-ooxml-schemas-3.8-20120326.jar"/>
 	<classpathentry kind="lib" path="lib/poi-scratchpad-3.8-20120326.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang.jar"/>
+	<classpathentry kind="lib" path="lib/easgz.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

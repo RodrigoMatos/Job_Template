@@ -1,13 +1,22 @@
 package exemplos;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.ZipException;
 
 import thread.ThreadDinamica;
+import utils.FileUtil;
 import utils.SQLUtil;
 import bancoDeDados.ConexaoPool;
+
+import com.eas.compression.CompressionException;
+
 import constantes.ConstantesDBAcess;
 
 /* CLASSE PARA TESTES */
@@ -50,6 +59,37 @@ public class Exemplos {
 		multiThread.execute(new ThreadDinamica(this, "metodoTeste", 5));
 		while (multiThread.getActiveCount() > 0);
 		multiThread.shutdown();
+	}
+	
+	
+	public void compactarArquivosZIP() {
+		List<File> arquivos = new ArrayList<File>();
+		arquivos.add(new File("D:\\SMARTSTEPS_JOB.log"));
+		arquivos.add(new File("D:\\COMMIT 14JOBS .sql"));
+		try {
+			FileUtil.compactarArquivosZip(arquivos, "D:\\teste.zip");
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+	}
+	
+	public void compactarArquivosBZ() {
+		try {
+			FileUtil.compactarArquivoBZ("D:\\teste.txt");
+		} catch (CompressionException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void descompactarArquivoZIP(){
+
+		try {
+			FileUtil.descompactarArquivo(new File("D:\\testes\\teste.zip"));
+		} catch (ZipException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
