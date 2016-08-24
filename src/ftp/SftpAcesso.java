@@ -14,14 +14,14 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-public class SftpRN {
+public class SftpAcesso {
 
 	private JSch jsch;
 	private Session session;
 	private Channel channel;
 	private ChannelSftp sftpChannel;
 
-	public SftpRN() {
+	public SftpAcesso() {
 		this.jsch = new JSch();
 	}
 

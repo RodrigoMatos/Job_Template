@@ -11,6 +11,10 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+
 public class FileUtil {
 
 	public static final String PATH_CRIACAO_ARQUIVOS = "/opt/processum/servicos/consolidacao/result/";
@@ -48,7 +52,30 @@ public class FileUtil {
     	return nomeArquivo.toString();
     }
 	
-	public FileWriter prepararArquivoParaEscrita(File file) throws IOException {
+	public static void bzip2Compress(File source) throws Exception {
+
+		BZip2CompressorOutputStream output = null;
+		FileInputStream input = null;
+		try {
+			LogUtil.Info("INICIANDO COMPRESSAO DO ARQUIVO PARA .bz2 ...");
+			File destination = new File(source.toString() + ".bz2");
+			output = new BZip2CompressorOutputStream(new FileOutputStream(destination));
+			input = new FileInputStream(source);
+			IOUtils.copy(input, output);
+	        LogUtil.Info("COMPRESSAO DO ARQUIVO REALIZADA COM SUCESSO.");
+		} catch (IOException e) {
+			LogUtil.Error("AO COMPRIMIR O ARQUIVO: " + e.getMessage());
+			throw e;
+		} finally {
+			if (input != null)
+				input.close();
+			if (output != null)
+				output.close();
+		}
+	}
+
+	
+	public static FileWriter prepararArquivoParaEscrita(File file) throws IOException {
 
 		try {
 			LogUtil.Info("PREPARANDO ARQUIVO PARA ESCRITA ...");
@@ -61,7 +88,7 @@ public class FileUtil {
 		}
 	}
 	
-	public BufferedWriter escreverNoArquivo(FileWriter fw, List<String> lines) throws IOException {
+	public static BufferedWriter escreverNoArquivo(FileWriter fw, List<String> lines) throws IOException {
 
 		try {
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -80,7 +107,7 @@ public class FileUtil {
 		}
 	}
 	
-	public void fecharArquivo(BufferedWriter bw) throws IOException {
+	public static void fecharArquivo(BufferedWriter bw) throws IOException {
 
 		try {
 			LogUtil.Info("FINALIZANDO O ARQUIVO ...");
@@ -92,7 +119,7 @@ public class FileUtil {
 		}
 	}
 
-	public File criarArquivo(String arquivo) throws Exception {
+	public static File criarArquivo(String arquivo) throws Exception {
 
 		File file = new File(arquivo);
 		try {
@@ -105,6 +132,16 @@ public class FileUtil {
 		} catch (Exception e) {
 			LogUtil.Error("AO CRIAR ARQUIVO: " + e.getMessage());
 			throw e;
+		}
+	}
+	
+	public static void criarDirs(String diretorio) {
+		File file = new File(diretorio);
+		file.mkdirs();
+		try {
+			FileUtils.forceMkdir(file);
+		} catch (IOException e) {
+			LogUtil.Error("ERRO AO CRIAR DIRETÓRIOS (" + diretorio + ")" + e.getMessage());
 		}
 	}
 }

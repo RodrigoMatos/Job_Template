@@ -11,7 +11,7 @@ import java.io.Serializable;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 
-public class FtpRN implements Serializable {
+public class FtpAcesso implements Serializable {
 
 	private static final long serialVersionUID = -7842979723746146852L;
 
@@ -20,7 +20,7 @@ public class FtpRN implements Serializable {
 	private String usuario;
 	private String senha;
 
-	public FtpRN() {
+	public FtpAcesso() {
 		this.ftp = new FTPClient();
 	}
 

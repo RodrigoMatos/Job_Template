@@ -16,13 +16,12 @@ import constantes.Configuracao;
 
 public class OracleDAO {
 	
-	private String chave;
+	protected static String chave = "SCIENCE";
 	
 	public OracleDAO() {
-		this.chave = "SCIENCE";
 	}
 	
-	public void deletarRegistroTabela(String tabela) throws Exception {
+	public static void deletarRegistroTabela(String tabela) throws Exception {
 
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -30,7 +29,7 @@ public class OracleDAO {
 		sql.append("DELETE FROM ").append(tabela);
 
 		try {
-			conn = ConexaoPool.getConnection(this.chave);
+			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
 			stmt.executeUpdate();
 		} catch (Exception e) {
@@ -41,7 +40,7 @@ public class OracleDAO {
 		}
 	}
 
-	public boolean isAtivo() throws Exception {
+	public static boolean isAtivo() throws Exception {
 
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -52,7 +51,7 @@ public class OracleDAO {
 		sql.append(" SELECT STR_BLOQUEADO FROM SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ").append(Configuracao.PARAM_SEQ_SERVICO_SCIENCE);
 
 		try {
-			conn = ConexaoPool.getConnection(this.chave);
+			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
 			rs = stmt.executeQuery();
 			if (rs.next()) {
@@ -70,7 +69,7 @@ public class OracleDAO {
 		return status;
 	}
 
-	public void atualizarDataExecucao() throws Exception {
+	public static void atualizarDataExecucao() throws Exception {
 
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -83,7 +82,7 @@ public class OracleDAO {
 		sql.append(" WHERE COD_SERVICO = ").append(Configuracao.PARAM_COD_SERVICO);
 
 		try {
-			conn = ConexaoPool.getConnection(this.chave);
+			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
 			stmt.executeUpdate();
 		} catch (Exception e) {
@@ -94,7 +93,7 @@ public class OracleDAO {
 		}
 	}
 
-	public ArrayList<String> consultarEmailsNotificacao() throws Exception {
+	public static ArrayList<String> consultarEmailsNotificacao() throws Exception {
 
 		ArrayList<String> listaEmails = new ArrayList<String>();
 		StringBuilder sql = new StringBuilder();
@@ -107,7 +106,7 @@ public class OracleDAO {
 		sql.append(" WHERE SIG_APPLICATION_CONFIG = '").append(Configuracao.PARAM_EMAIL_NOTIF).append("'");
 
 		try {
-			conn = ConexaoPool.getConnection(this.chave);
+			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
 			rs = stmt.executeQuery();
 			String emails = "";
@@ -130,7 +129,7 @@ public class OracleDAO {
 		}
 	}
 
-	public void enviarEmail(ArrayList<String> listaEmail) throws Exception {
+	public static void enviarEmail(ArrayList<String> listaEmail) throws Exception {
 
 		if (listaEmail == null || listaEmail.isEmpty()) {
 			return;
@@ -144,7 +143,7 @@ public class OracleDAO {
 		sql.append(" VALUES (CALLMAP.SEQ_EMAIL.NEXTVAL, ? ,?, ?, ?) ");
 
 		try {
-			conn = ConexaoPool.getConnection(this.chave);
+			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
 			for (String email : listaEmail) {
 				stmt.setString(1, "SMAP_SCIENCE_REQUEST@vivo.com.br");
@@ -163,12 +162,12 @@ public class OracleDAO {
 	}
 
 
-	public EmailVO enviarEmailComAnexo(String email, EmailVO emailConteudo) throws Exception {
+	public static EmailVO enviarEmailComAnexo(String email, EmailVO emailConteudo) throws Exception {
 
 		if (email == null || "".equals(email)) {
 			throw new Exception("CONTEUDO DO EMAIL VAZIO.");
 		}
-		emailConteudo.setCodigo(this.getSequenceEmail());
+		emailConteudo.setCodigo(getSequenceEmail());
 		Connection conn = null;
 		PreparedStatement stmt = null;
 
@@ -177,7 +176,7 @@ public class OracleDAO {
 		sql.append(" VALUES (?, ?, ?, ?, ?) ");
 
 		try {
-			conn = ConexaoPool.getConnection(this.chave);
+			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
 			stmt.setInt(1, emailConteudo.getCodigo());
 			stmt.setString(2, "SMAP_SCIENCE_REQUEST@vivo.com.br");
@@ -194,7 +193,7 @@ public class OracleDAO {
 		}
 	}
 
-	private Integer getSequenceEmail() throws Exception {
+	protected static Integer getSequenceEmail() throws Exception {
 
 		Integer cod = null;
 		Connection conn = null;
@@ -205,7 +204,7 @@ public class OracleDAO {
 		sql.append("SELECT CALLMAP.SEQ_EMAIL.NEXTVAL FROM DUAL ");
 
 		try {
-			conn = ConexaoPool.getConnection(this.chave);
+			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
 			rs = stmt.executeQuery();
 			if (rs.next()) {
@@ -221,7 +220,7 @@ public class OracleDAO {
 		}
 	}
 
-	public void anexarEmail(EmailVO email) throws Exception {
+	public static void anexarEmail(EmailVO email) throws Exception {
 
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -231,7 +230,7 @@ public class OracleDAO {
 		sql.append(" VALUES (CALLMAP.SEQ_E_MAIL_ANEXO.NEXTVAL, ?, ?, ?) ");
 
 		try {
-			conn = ConexaoPool.getConnection(this.chave);
+			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
 			FileInputStream fis = new FileInputStream(email.getArquivoAnexado());
 			int lenght = (int) email.getArquivoAnexado().length();
@@ -248,7 +247,7 @@ public class OracleDAO {
 		}
 	}
 	
-	public FtpVO consultarFTP() throws Exception {
+	public static FtpVO consultarFTP() throws Exception {
 
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -260,7 +259,7 @@ public class OracleDAO {
 		sql.append(" FROM SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ").append(Configuracao.PARAM_SEQ_SERVICO_SCIENCE);
 
 		try {
-			conn = ConexaoPool.getConnection(this.chave);
+			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
 			rs = stmt.executeQuery();
 			if (rs.next()) {
