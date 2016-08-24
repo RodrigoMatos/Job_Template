@@ -24,12 +24,12 @@ public class ArquivoXLSX implements Serializable {
 	private static final long serialVersionUID = -7057834817253947024L;
 
 	/*********************************** ESCRITA ***********************************/
-
 	public static FileOutputStream criarArquivoXLSX(String dirArquivo) throws FileNotFoundException {
-		FileUtil.criarDirs(dirArquivo);
-		File arquivo = new File(dirArquivo);
-		FileOutputStream fileOut = new FileOutputStream(arquivo);
-		return fileOut;
+		return FileUtil.criarArquivoParaEscrita(dirArquivo);
+	}
+	
+	public static FileOutputStream criarArquivoXLSX(File arquivo) throws FileNotFoundException {
+		return FileUtil.criarArquivoParaEscrita(arquivo);
 	}
 
 	public static Sheet criarAba(Workbook wb, String nomeAba) {
@@ -60,30 +60,33 @@ public class ArquivoXLSX implements Serializable {
 		linha.createCell(indexColuna).setCellValue(conteudo);
 	}
 
-	public static void salvarAlteracoes(Workbook wb, FileOutputStream conteudo) throws IOException {
+	public static void salvarNovo(Workbook wb, FileOutputStream conteudo) throws IOException {
 		wb.write(conteudo);
 		conteudo.close();
 	}
 
 	/*********************************** LEITURA ***********************************/
+	public static XSSFWorkbook abrirXLSX(File arquivo) throws IOException {
+		return new XSSFWorkbook(new FileInputStream(arquivo.getAbsolutePath()));
+	}
 
 	public static XSSFWorkbook abrirXLSX(String dirArquivo) throws IOException {
 		return new XSSFWorkbook(new FileInputStream(dirArquivo));
 	}
 
-	public static Sheet obterAba(XSSFWorkbook workbook, short indexAba) {
+	public static Sheet obterAba(XSSFWorkbook workbook, Integer indexAba) {
 		return workbook.getSheetAt(0);
 	}
 
-	public static Row obterLinha(Sheet worksheet, int indexLinha) {
+	public static Row obterLinha(Sheet worksheet, Integer indexLinha) {
 		return worksheet.getRow(indexLinha);
 	}
 
-	public static Cell obterCelula(Row linha, int indexCelula) {
+	public static Cell obterCelula(Row linha, Integer indexCelula) {
 		return linha.getCell(indexCelula);
 	}
 
-	public static boolean isEmptyCell(Cell cell) {
+	public static Boolean isEmptyCell(Cell cell) {
 		if (cell == null || StringUtils.isEmpty(cell.toString().trim())
 				|| cell.getCellType() == Cell.CELL_TYPE_BLANK) {
 			return true;

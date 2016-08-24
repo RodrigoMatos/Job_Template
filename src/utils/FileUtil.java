@@ -95,44 +95,41 @@ public class FileUtil {
 			throw e;
 		}
 	}
-	
+
 	public static void criarDirs(String diretorio) {
 		File file = new File(diretorio);
+		criarDirs(file);
+	}
+
+	public static void criarDirs(File file) {
 		file.mkdirs();
 		try {
 			FileUtils.forceMkdir(file);
 		} catch (IOException e) {
-			LogUtil.Error("ERRO AO CRIAR DIRETÓRIOS (" + diretorio + ")" + e.getMessage());
+			LogUtil.Error("ERRO AO CRIAR DIRETÓRIOS (" + file.getAbsolutePath() + ")" + e.getMessage());
 		}
 	}
-	
+
 	public static byte[] compactarArquivosZip(List<File> arquivos, String dirArquivo) throws Exception {
 		return compactarArquivosZip(arquivos, new File(dirArquivo));
 	}
 	
 	public static byte[] compactarArquivosZip(List<File> arquivos, File arquivoFinal) throws Exception {
 
-		// Create a buffer for reading the files
 		byte[] buf = new byte[1024];
 		byte[] stream = null;
 		try {
-			// Create the ZIP file
 			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(arquivoFinal));
-			// Compress the files
 			for (File arquivo : arquivos) {
 				FileInputStream in = new FileInputStream(arquivo);
-				// Add ZIP entry to output stream.
 				out.putNextEntry(new ZipEntry(arquivo.getName()));
-				// Transfer bytes from the file to the ZIP file
 				int len;
 				while ((len = in.read(buf)) > 0) {
 					out.write(buf, 0, len);
 				}
-				// Complete the entry
 				out.closeEntry();
 				in.close();
 			}
-			// Complete the ZIP file
 			out.close();
 			InputStream is = new FileInputStream(arquivoFinal);
 			stream = new byte[(int) arquivoFinal.length()];
@@ -147,11 +144,11 @@ public class FileUtil {
 		}
 		return stream;
 	}
-	
+
 	public static void descompactarArquivo(String dirArquivoZIP) throws ZipException, IOException {
 		descompactarArquivo(new File(dirArquivoZIP));
 	}
-	
+
 	public static void descompactarArquivo(File arquivoZIP) throws ZipException, IOException {
 
 		ZipFile zipFile = new ZipFile(arquivoZIP);
@@ -166,6 +163,38 @@ public class FileUtil {
 				} else {
 					LogUtil.Info("DESCOMPACTANDO ARQUIVO: " + entry.getName());
 					copyInputStream(zipFile.getInputStream(entry), new FileOutputStream(new File(arquivoZIP.getParentFile() + System.getProperty("file.separator") + entry.getName())));
+				}
+			}
+			zipFile.close();
+		} catch (IOException ioe) {
+			LogUtil.Error("ERRO AO DESCOMPACTAR: " + ioe.getMessage());
+			throw ioe;
+		}
+	}
+
+	public static void descompactarArquivoPara(File arquivoZIP, String diretorioPara) throws ZipException, IOException {
+		descompactarArquivoPara(arquivoZIP, new File(diretorioPara));
+	}
+
+	public static void descompactarArquivoPara(File arquivoZIP, File diretorioPara) throws ZipException, IOException {
+		
+		if (diretorioPara == null || diretorioPara.isFile()) {
+			throw new IOException("Caminho informado invalido, informe um diretório.");
+		}
+		criarDirs(diretorioPara);
+
+		ZipFile zipFile = new ZipFile(arquivoZIP);
+		Enumeration entries;
+		try {
+			entries = zipFile.entries();
+			while (entries.hasMoreElements()) {
+				ZipEntry entry = (ZipEntry) entries.nextElement();
+				if (entry.isDirectory()) {
+					LogUtil.Info("DESCOMPACTANDO DIRETÓRIO: " + entry.getName());
+					criarDirs(diretorioPara.getAbsoluteFile() + entry.getName());
+				} else {
+					LogUtil.Info("DESCOMPACTANDO ARQUIVO: " + entry.getName());
+					copyInputStream(zipFile.getInputStream(entry), new FileOutputStream(new File(diretorioPara.getAbsoluteFile() + entry.getName())));
 				}
 			}
 			zipFile.close();
@@ -240,5 +269,18 @@ public class FileUtil {
 			throw ioex;
 		}
 		return sendBuf;
+	}
+
+	public static FileOutputStream criarArquivoParaEscrita(String dirArquivo) throws FileNotFoundException {
+		FileUtil.criarDirs(dirArquivo);
+		File arquivo = new File(dirArquivo);
+		FileOutputStream fileOut = new FileOutputStream(arquivo);
+		return fileOut;
+	}
+	
+	public static FileOutputStream criarArquivoParaEscrita(File arquivo) throws FileNotFoundException {
+		FileUtil.criarDirs(arquivo.getParentFile());
+		FileOutputStream fileOut = new FileOutputStream(arquivo);
+		return fileOut;
 	}
 }
