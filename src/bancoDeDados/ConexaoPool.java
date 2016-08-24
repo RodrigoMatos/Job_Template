@@ -1,4 +1,4 @@
-package conexaoBD;
+package bancoDeDados;
 
 import java.io.Serializable;
 import java.sql.Connection;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.EmailVO;
 import utils.LogUtil;
-import dao.OracleDAO;
+import bancoDeDados.dao.OracleDAO;
 
 public class EmailScience implements Serializable {
 

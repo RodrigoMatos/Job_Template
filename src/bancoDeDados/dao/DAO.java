@@ -1,11 +1,11 @@
-package dao;
+package bancoDeDados.dao;
 
 import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
 import utils.SQLUtil;
-import conexaoBD.ConexaoPool;
+import bancoDeDados.ConexaoPool;
 
 public abstract class DAO implements Serializable {
 	

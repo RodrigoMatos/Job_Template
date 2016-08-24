@@ -3,7 +3,7 @@ package rn;
 import java.io.Serializable;
 
 import utils.LogUtil;
-import dao.OracleDAO;
+import bancoDeDados.dao.OracleDAO;
 
 public class RegraDeNegocio implements Serializable {
 

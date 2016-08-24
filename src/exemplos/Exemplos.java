@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 
 import thread.ThreadDinamica;
 import utils.SQLUtil;
-import conexaoBD.ConexaoPool;
+import bancoDeDados.ConexaoPool;
 import constantes.ConstantesDBAcess;
 
 /* CLASSE PARA TESTES */

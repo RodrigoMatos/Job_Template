@@ -1,4 +1,4 @@
-package dao;
+package bancoDeDados.dao;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 import model.EmailVO;
 import model.FtpVO;
 import utils.SQLUtil;
-import conexaoBD.ConexaoPool;
+import bancoDeDados.ConexaoPool;
 import constantes.Configuracao;
 
 public class OracleDAO extends DAO {

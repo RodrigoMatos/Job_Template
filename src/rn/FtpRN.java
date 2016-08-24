@@ -5,7 +5,7 @@ import java.util.List;
 
 import model.FtpVO;
 import utils.LogUtil;
-import dao.OracleDAO;
+import bancoDeDados.dao.OracleDAO;
 import ftp.FtpAcesso;
 
 public class FtpRN implements Serializable {
