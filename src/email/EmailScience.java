@@ -1,12 +1,15 @@
-package rn;
+package email;
 
+import java.io.Serializable;
 import java.util.List;
 
 import model.EmailVO;
 import utils.LogUtil;
 import dao.OracleDAO;
 
-public class EmailRN {
+public class EmailScience implements Serializable {
+
+	private static final long serialVersionUID = -6329708635358805636L;
 
 	public static List<String> consultarEmailsNotificacao() throws Exception {
 

@@ -1,6 +1,7 @@
 package dao;
 
 import java.io.FileInputStream;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,8 +15,9 @@ import utils.SQLUtil;
 import conexaoBD.ConexaoPool;
 import constantes.Configuracao;
 
-public class OracleDAO {
+public class OracleDAO implements Serializable {
 	
+	private static final long serialVersionUID = -7032584245157365056L;
 	protected static String chave = "SCIENCE";
 	
 	public OracleDAO() {

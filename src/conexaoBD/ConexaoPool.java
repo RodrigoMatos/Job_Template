@@ -1,5 +1,6 @@
 package conexaoBD;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,8 +15,9 @@ import com.jolbox.bonecp.BoneCPConfig;
  * @version 1.0
  */
 
-public class ConexaoPool {
+public class ConexaoPool implements Serializable {
 	
+	private static final long serialVersionUID = -6239447368291477751L;
 	private static Map<String, BoneCP> connectionPool;
 	
 	/**

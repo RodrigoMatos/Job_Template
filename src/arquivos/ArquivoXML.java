@@ -1,7 +1,8 @@
-package arquivo;
+package arquivos;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,9 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 
-public abstract class ArquivoXML {
+public abstract class ArquivoXML implements Serializable {
+
+	private static final long serialVersionUID = 8104712020467009444L;
 
 	public static Element lerXML(String dirArquivo) throws JDOMException, IOException {
 
@@ -22,6 +25,7 @@ public abstract class ArquivoXML {
 		return conteudo;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public static List getFilhos(Element conteudo, String no) {
 		return conteudo.getChildren(no);
 	}

@@ -1,6 +1,7 @@
 package utils;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,10 +11,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.zip.DataFormatException;
+import java.util.zip.Inflater;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
-import org.apache.commons.compress.compressors.bzip2.BZip2CompressorOutputStream;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 public class FileUtil {
 
@@ -51,29 +55,6 @@ public class FileUtil {
     	nomeArquivo.append(extensao);
     	return nomeArquivo.toString();
     }
-	
-	public static void bzip2Compress(File source) throws Exception {
-
-		BZip2CompressorOutputStream output = null;
-		FileInputStream input = null;
-		try {
-			LogUtil.Info("INICIANDO COMPRESSAO DO ARQUIVO PARA .bz2 ...");
-			File destination = new File(source.toString() + ".bz2");
-			output = new BZip2CompressorOutputStream(new FileOutputStream(destination));
-			input = new FileInputStream(source);
-			IOUtils.copy(input, output);
-	        LogUtil.Info("COMPRESSAO DO ARQUIVO REALIZADA COM SUCESSO.");
-		} catch (IOException e) {
-			LogUtil.Error("AO COMPRIMIR O ARQUIVO: " + e.getMessage());
-			throw e;
-		} finally {
-			if (input != null)
-				input.close();
-			if (output != null)
-				output.close();
-		}
-	}
-
 	
 	public static FileWriter prepararArquivoParaEscrita(File file) throws IOException {
 
@@ -144,4 +125,101 @@ public class FileUtil {
 			LogUtil.Error("ERRO AO CRIAR DIRETÓRIOS (" + diretorio + ")" + e.getMessage());
 		}
 	}
+	
+	public static byte[] decompressArrayWithoutDeflater(byte[] array) throws Exception{
+		ByteArrayInputStream byteInputStream = null;
+		ZipInputStream zis = null;
+		ByteArrayOutputStream bos = null;
+		try {
+			byteInputStream = new ByteArrayInputStream(array);
+			zis = new ZipInputStream(byteInputStream);
+			bos = new ByteArrayOutputStream(array.length);
+			while((zis.getNextEntry()) != null) {
+				int count;
+				byte data[] = new byte[2048];  
+				while ((count = zis.read(data, 0, 2048))!= -1) {
+					bos.write(data, 0, count);
+				}	           
+			}
+			zis.close();
+			bos.flush();
+			bos.close();
+		} catch(Exception e) {
+			throw e;
+		}	     
+		return bos.toByteArray();
+	}
+	
+	public static byte[] compressListaArquivos(List<File> arquivos) throws Exception{
+        
+	    // Create a buffer for reading the files 
+	    byte[] buf = new byte[1024]; 
+	    byte[] stream = null;
+	    File arquivoFinal = new File(FileUtil.getNomeArquivoTemp(".zip"));
+	    try { 
+	    	// Create the ZIP file 
+	    	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(arquivoFinal)); 
+	    	// Compress the files 
+	    	for (File arquivo: arquivos) { 
+	    		FileInputStream in = new FileInputStream(arquivo); 
+	    		// Add ZIP entry to output stream. 
+	    		out.putNextEntry(new ZipEntry(arquivo.getName())); 
+	    		// Transfer bytes from the file to the ZIP file 
+	    		int len; 
+	    		while ((len = in.read(buf)) > 0) { 
+	    			out.write(buf, 0, len); 
+	    		} 
+	    		// Complete the entry 
+	    		out.closeEntry(); 
+	    		in.close(); 
+	    		arquivo.delete();
+	    	} 
+	    	// Complete the ZIP file 
+	    	out.close(); 
+	    	InputStream is = new FileInputStream(arquivoFinal);
+   			stream = new byte[(int)arquivoFinal.length()];        
+   		    int offset = 0;
+   		    int numRead = 0;
+   		    while (offset < stream.length && (numRead= is.read(stream, offset, stream.length-offset)) >= 0) {
+   		        offset += numRead;
+   		    }  
+   		    is.close();  
+   		    arquivoFinal.delete();
+	    }catch (IOException e) { 
+	    	throw e;
+	    } 	 
+	    return stream;
+    }
+
+	public static byte[] decompressArray(byte[] array, boolean retornaNullErro) throws Exception {	
+		
+	    Inflater decompressor;
+	    ByteArrayOutputStream bos;
+
+        try{
+        	
+        	decompressor = new Inflater();
+            decompressor.setInput(array);
+
+            bos = new ByteArrayOutputStream(array.length);
+        	
+            byte[] buf = new byte[1024];
+            while (!decompressor.finished()){
+                int count = decompressor.inflate(buf);
+                bos.write(buf, 0, count);
+            }
+            bos.close();
+            
+            return bos.toByteArray();
+            
+        } catch (IOException e){
+            throw e;
+        } catch (DataFormatException e){
+        	if(retornaNullErro){
+        		return null;
+        	} else {
+        		throw e;	
+        	}        	           
+        }        
+    }
 }

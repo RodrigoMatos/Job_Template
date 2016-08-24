@@ -1,10 +1,11 @@
-package arquivo;
+package arquivos;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,7 +19,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import utils.FileUtil;
 
-public class ArquivoXLSX {
+public class ArquivoXLSX implements Serializable {
+
+	private static final long serialVersionUID = -7057834817253947024L;
 
 	/*********************************** ESCRITA ***********************************/
 

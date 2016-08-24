@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
 import java.util.Vector;
 
 import com.jcraft.jsch.Channel;
@@ -14,7 +15,9 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-public class SftpAcesso {
+public class SftpAcesso implements Serializable {
+
+	private static final long serialVersionUID = -2870598128854085312L;
 
 	private JSch jsch;
 	private Session session;
