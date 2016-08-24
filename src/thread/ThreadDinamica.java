@@ -2,8 +2,6 @@ package thread;
 
 import java.lang.reflect.Method;
 
-import utils.LogUtil;
-
 /**
  * @author romatos
  * @version 1.0
@@ -30,7 +28,6 @@ public class ThreadDinamica extends Thread {
 	@Override
 	public void run() {
 		try {
-			LogUtil.Info("[THREAD] - EXECUTANDO METODO (" + this.entidade.getClass() + " -> " + this.metodo + ") ...");
 			@SuppressWarnings("rawtypes")
 			Class[] classParametros = null;
 			if (this.parametros != null) {
@@ -41,9 +38,8 @@ public class ThreadDinamica extends Thread {
 			}
 			Method metodoEx = this.entidade.getClass().getMethod(this.metodo, classParametros);
 			metodoEx.invoke(this.entidade, this.parametros);
-			LogUtil.Info("[THREAD] - METODO EXECUTADO COM SUCESSO (" + this.entidade.getClass() + " -> " + this.metodo + ").");
 		} catch (Exception e) {
-			LogUtil.Error("[THREAD] - ERRO AO EXECUTAR METODO (" + this.entidade.getClass() + " -> " + this.metodo + "): " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 

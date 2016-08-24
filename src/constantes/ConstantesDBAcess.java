@@ -5,7 +5,7 @@ import model.BancoDadosVO;
 public class ConstantesDBAcess {
 
 	public static final BancoDadosVO BANCOSCIENCEBCV = new BancoDadosVO
-			("url"
+			("jdbc:oracle:thin:@URL_SERVIDOR:PORTA/SID"
 			, "usuario"
 			, "senha"
 			, "oracle.jdbc.driver.OracleDriver"
@@ -14,7 +14,7 @@ public class ConstantesDBAcess {
 			,true);
 	
 	public static final BancoDadosVO BANCOSCIENCEPROD = new BancoDadosVO(
-			"url"
+			"jdbc:oracle:thin:@URL_SERVIDOR:PORTA/SID"
 			, "usuario"
 			, "senha"
 			, "oracle.jdbc.driver.OracleDriver"
