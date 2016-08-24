@@ -1,7 +1,6 @@
 package utils;
 
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,7 +17,6 @@ import java.util.zip.Inflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
-import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
@@ -29,22 +27,6 @@ import com.eas.compression.GZipHandler;
 
 public class FileUtil {
 
-	public static byte[] finallyOutPutStream(FileOutputStream fos,File file) throws Exception{
-		byte[] stream = null;
-		if(fos != null){
-   			fos.close();
-   			InputStream is = new FileInputStream(file);
-   			stream = new byte[(int)file.length()];        
-   		    int offset = 0;
-   		    int numRead = 0;
-   		    while (offset < stream.length && (numRead= is.read(stream, offset, stream.length-offset)) >= 0) {
-   		        offset += numRead;
-   		    }  
-   		    is.close();	   		    
-		}
-		return stream;
-	}
-	
 	public static byte[] converteInputStreamToArrayByte(InputStream iStream) throws Exception{
 		int i = 0;        
         ByteArrayOutputStream baos = new ByteArrayOutputStream();        
@@ -124,36 +106,15 @@ public class FileUtil {
 		}
 	}
 	
-	public static byte[] decompressArrayWithoutDeflater(byte[] array) throws Exception{
-		ByteArrayInputStream byteInputStream = null;
-		ZipInputStream zis = null;
-		ByteArrayOutputStream bos = null;
-		try {
-			byteInputStream = new ByteArrayInputStream(array);
-			zis = new ZipInputStream(byteInputStream);
-			bos = new ByteArrayOutputStream(array.length);
-			while((zis.getNextEntry()) != null) {
-				int count;
-				byte data[] = new byte[2048];  
-				while ((count = zis.read(data, 0, 2048))!= -1) {
-					bos.write(data, 0, count);
-				}	           
-			}
-			zis.close();
-			bos.flush();
-			bos.close();
-		} catch(Exception e) {
-			throw e;
-		}	     
-		return bos.toByteArray();
+	public static byte[] compactarArquivosZip(List<File> arquivos, String dirArquivo) throws Exception {
+		return compactarArquivosZip(arquivos, new File(dirArquivo));
 	}
 	
-	public static byte[] compactarArquivosZip(List<File> arquivos, String dirZip) throws Exception{
+	public static byte[] compactarArquivosZip(List<File> arquivos, File arquivoFinal) throws Exception {
 
 		// Create a buffer for reading the files
 		byte[] buf = new byte[1024];
 		byte[] stream = null;
-		File arquivoFinal = new File(dirZip);
 		try {
 			// Create the ZIP file
 			ZipOutputStream out = new ZipOutputStream(new FileOutputStream(arquivoFinal));
@@ -185,6 +146,10 @@ public class FileUtil {
 			throw e;
 		}
 		return stream;
+	}
+	
+	public static void descompactarArquivo(String dirArquivoZIP) throws ZipException, IOException {
+		descompactarArquivo(new File(dirArquivoZIP));
 	}
 	
 	public static void descompactarArquivo(File arquivoZIP) throws ZipException, IOException {
