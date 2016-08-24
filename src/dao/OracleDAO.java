@@ -1,7 +1,6 @@
 package dao;
 
 import java.io.FileInputStream;
-import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,31 +14,13 @@ import utils.SQLUtil;
 import conexaoBD.ConexaoPool;
 import constantes.Configuracao;
 
-public class OracleDAO implements Serializable {
-	
-	private static final long serialVersionUID = -7032584245157365056L;
+public class OracleDAO extends DAO {
+
+	private static final long serialVersionUID = 3622455715697490967L;
+
 	protected static String chave = "SCIENCE";
-	
+
 	public OracleDAO() {
-	}
-	
-	public static void deletarRegistroTabela(String tabela) throws Exception {
-
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		StringBuilder sql = new StringBuilder();
-		sql.append("DELETE FROM ").append(tabela);
-
-		try {
-			conn = ConexaoPool.getConnection(chave);
-			stmt = conn.prepareStatement(sql.toString());
-			stmt.executeUpdate();
-		} catch (Exception e) {
-			throw e;
-		} finally {
-			SQLUtil.closeStatement(stmt);
-			SQLUtil.closeConnection(conn);
-		}
 	}
 
 	public static boolean isAtivo() throws Exception {

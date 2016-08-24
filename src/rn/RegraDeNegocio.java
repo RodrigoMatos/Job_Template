@@ -11,12 +11,12 @@ public class RegraDeNegocio implements Serializable {
 
 	public RegraDeNegocio() {
 	}
-	
+
 	public void deletarRegistros(String tabela) {
 
 		try {
 			LogUtil.Info("DELETANDO REGISTROS (" + tabela + ") ...");
-			OracleDAO.deletarRegistroTabela(tabela);
+			OracleDAO.deletarRegistroTabela(tabela, "chave");
 			LogUtil.Info("REGISTROS DELETADOS COM SUCESSO (" + tabela + ").");
 		} catch (Exception e) {
 			LogUtil.Error("ERRO AO DELETAR REGISTRO (" + tabela + "): " + e.getMessage());
