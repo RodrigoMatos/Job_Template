@@ -11,6 +11,8 @@ public class EmailVO implements Serializable {
 	private String assunto;
 	private String mensagem;
 	private File arquivoAnexado;
+	private String de;
+	private String para;
 
 	public String getAssunto() {
 		return assunto;
@@ -48,4 +50,20 @@ public class EmailVO implements Serializable {
 		this.codigo = codigo;
 	}
 
+	public String getDe() {
+		return de;
+	}
+
+	public void setDe(String de) {
+		this.de = de;
+	}
+
+	public String getPara() {
+		return para;
+	}
+
+	public void setPara(String para) {
+		this.para = para;
+	}
+	
 }

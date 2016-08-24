@@ -5,11 +5,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import model.EmailVO;
 import model.FtpVO;
-import utils.LogUtil;
 import utils.SQLUtil;
 import conexaoBD.ConexaoPool;
 import constantes.Configuracao;
@@ -93,9 +93,9 @@ public class OracleDAO {
 		}
 	}
 
-	public static ArrayList<String> consultarEmailsNotificacao() throws Exception {
+	public static List<String> consultarEmailsNotificacao() throws Exception {
 
-		ArrayList<String> listaEmails = new ArrayList<String>();
+		List<String> listaEmails = new ArrayList<String>();
 		StringBuilder sql = new StringBuilder();
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -129,14 +129,10 @@ public class OracleDAO {
 		}
 	}
 
-	public static void enviarEmail(ArrayList<String> listaEmail) throws Exception {
+	public static void enviarEmail(EmailVO emailVO) throws Exception {
 
-		if (listaEmail == null || listaEmail.isEmpty()) {
-			return;
-		}
 		Connection conn = null;
 		PreparedStatement stmt = null;
-		LogUtil.Info(" FALHA NO JOB, ENVIANDO EMAIL PARA: " + listaEmail);
 
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO CALLMAP.E_MAIL (COD_EMAIL, DES_DE, DES_PARA, DES_ASSUNTO, DES_MESSAGEM) ");
@@ -145,14 +141,11 @@ public class OracleDAO {
 		try {
 			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
-			for (String email : listaEmail) {
-				stmt.setString(1, "SMAP_SCIENCE_REQUEST@vivo.com.br");
-				stmt.setString(2, email);
-				stmt.setString(3, "Falha na Execução do JOB INVENTARIO UNIFICADO");
-				stmt.setString(4, "Log de execução:\n" + LogUtil.logErro.toString().replaceAll("\n+", "\n"));
-				stmt.addBatch();
-			}
-			stmt.executeBatch();
+			stmt.setString(1, emailVO.getDe());
+			stmt.setString(2, emailVO.getPara());
+			stmt.setString(3, emailVO.getAssunto());
+			stmt.setString(4, emailVO.getMensagem());
+			stmt.execute();
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -162,12 +155,9 @@ public class OracleDAO {
 	}
 
 
-	public static EmailVO enviarEmailComAnexo(String email, EmailVO emailConteudo) throws Exception {
+	public static EmailVO enviarEmailComAnexo(EmailVO emailVO) throws Exception {
 
-		if (email == null || "".equals(email)) {
-			throw new Exception("CONTEUDO DO EMAIL VAZIO.");
-		}
-		emailConteudo.setCodigo(getSequenceEmail());
+		emailVO.setCodigo(getSequenceEmail());
 		Connection conn = null;
 		PreparedStatement stmt = null;
 
@@ -178,13 +168,13 @@ public class OracleDAO {
 		try {
 			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
-			stmt.setInt(1, emailConteudo.getCodigo());
-			stmt.setString(2, "SMAP_SCIENCE_REQUEST@vivo.com.br");
-			stmt.setString(3, email);
-			stmt.setString(4, emailConteudo.getAssunto());
-			stmt.setString(5, emailConteudo.getMensagem());
+			stmt.setInt(1, emailVO.getCodigo());
+			stmt.setString(2, emailVO.getDe());
+			stmt.setString(3, emailVO.getPara());
+			stmt.setString(4, emailVO.getAssunto());
+			stmt.setString(5, emailVO.getMensagem());
 			stmt.execute();
-			return emailConteudo;
+			return emailVO;
 		} catch (Exception e) {
 			throw e;
 		} finally {

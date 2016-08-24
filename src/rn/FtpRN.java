@@ -15,7 +15,7 @@ public class FtpRN {
 		this.ftpRN = ftpRN;
 	}
 
-	protected FtpVO consultarFTP() throws Exception {
+	public FtpVO consultarFTP() throws Exception {
 
 		try {
 			LogUtil.Info("CONSULTANDO DADOS DO FTP ...");
@@ -28,7 +28,7 @@ public class FtpRN {
 		}
 	}
 	
-	protected void conectarFTP(FtpVO ftpVO) throws Exception {
+	public void conectarFTP(FtpVO ftpVO) throws Exception {
 
 		try {
 			LogUtil.Info("CONECTANDO COM O SERVIDOR FTP (" + ftpVO.getServidor() + " | " + ftpVO.getUsuario() + ") ...");
@@ -40,7 +40,7 @@ public class FtpRN {
 		}
 	}
 	
-	protected void upload(String origem, String destino) throws Exception {
+	public void upload(String origem, String destino) throws Exception {
 
 		try {
 			LogUtil.Info("REALIZANDO UPLOAD DO ARQUIVO (" + origem + " => " + destino + ") ...");
@@ -53,7 +53,7 @@ public class FtpRN {
 		}
 	}
 
-	protected void desconectarFTP() {
+	public void desconectarFTP() {
 
 		if (this.ftpRN.isConnected()) {
 			try {
@@ -66,7 +66,7 @@ public class FtpRN {
 		}
 	}
 
-	protected void enviarArquivosFTP(List<String> arquivos) throws Exception {
+	public void enviarArquivosFTP(List<String> arquivos) throws Exception {
 
 		FtpVO ftpVO;
 		ftpVO = this.consultarFTP();
@@ -79,10 +79,6 @@ public class FtpRN {
 			}
 		}
 		this.desconectarFTP();
-	}
-
-	public void iniciarProcesso() throws Exception {
-
 	}
 
 }
