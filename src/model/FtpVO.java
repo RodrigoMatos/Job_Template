@@ -1,6 +1,10 @@
 package model;
 
-public class FtpVO {
+import java.io.Serializable;
+
+public class FtpVO implements Serializable {
+
+	private static final long serialVersionUID = 3139660600249334104L;
 
 	private String servidor;
 	private String usuario;

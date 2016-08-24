@@ -1,5 +1,6 @@
 package rn;
 
+import java.io.Serializable;
 import java.util.List;
 
 import model.FtpVO;
@@ -7,8 +8,10 @@ import utils.LogUtil;
 import dao.OracleDAO;
 import ftp.FtpAcesso;
 
-public class FtpRN {
-	
+public class FtpRN implements Serializable {
+
+	private static final long serialVersionUID = 4161049651311326198L;
+
 	private FtpAcesso ftpRN;
 	
 	public FtpRN(FtpAcesso ftpRN) {

@@ -1,9 +1,13 @@
 package rn;
 
+import java.io.Serializable;
+
 import utils.LogUtil;
 import dao.OracleDAO;
 
-public class RegraDeNegocio {
+public class RegraDeNegocio implements Serializable {
+
+	private static final long serialVersionUID = -2821161670762304175L;
 
 	public RegraDeNegocio() {
 	}
