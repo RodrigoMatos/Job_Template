@@ -268,6 +268,7 @@ public class FileUtil {
 		try {
 			inFile = new FileInputStream(file);
 			inFile.read(sendBuf, 0, len);
+			inFile.close();
 		} catch (FileNotFoundException fnfex) {
 			throw fnfex;
 		} catch (IOException ioex) {
