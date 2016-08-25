@@ -1,51 +1,55 @@
-package arquivos;
+package arquivos.excel;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-public class ArquivoXLS implements Serializable {
+public abstract class ArquivoExcelGenerico implements Serializable {
 
-	private static final long serialVersionUID = -1189481367870293461L;
-
-	/*********************************** ESCRITA ***********************************/
-
+	private static final long serialVersionUID = -7057834817253947024L;
 	
-	/*********************************** LEITURA  ***********************************/
-	public static Workbook abrirXLS(File arquivo) throws IOException, InvalidFormatException {
-		return WorkbookFactory.create(new FileInputStream(arquivo.getAbsolutePath()));
+	public void escreverNaCelula(Row linha, String conteudo, int indexColuna) {
+		linha.createCell(indexColuna).setCellValue(conteudo);
 	}
 
-	public static Workbook abrirXLS(String dirArquivo) throws IOException, InvalidFormatException {
-		return WorkbookFactory.create(new FileInputStream(dirArquivo));
-	}
-	
-	public static Sheet obterAba(HSSFWorkbook workbook, Integer index) {
-		return workbook.getSheetAt(index);
+	public void escreverNaCelula(Row linha, Double conteudo, int indexColuna) {
+		linha.createCell(indexColuna).setCellValue(conteudo);
 	}
 
-	public static Row obterLinha(Sheet sheet, Integer indexLinha) {
-		return sheet.getRow(indexLinha);
+	public void escreverNaCelula(Row linha, Date conteudo, int indexColuna) {
+		linha.createCell(indexColuna).setCellValue(conteudo);
 	}
-	
-	public static Cell obterCelula(Row linha, Integer indexCelula) {
-		return linha.getCell(indexCelula);
+
+	public void escreverNaCelula(Row linha, Boolean conteudo, int indexColuna) {
+		linha.createCell(indexColuna).setCellValue(conteudo);
 	}
-	
-	public static Boolean isEmptyCell(Cell cell) {
+
+	public Cell escreverNaCelula(Cell celula, String conteudo) {
+		celula.setCellValue(conteudo);
+		return celula;
+	}
+
+	public Cell escreverNaCelula(Cell celula, Double conteudo) {
+		celula.setCellValue(conteudo);
+		return celula;
+	}
+
+	public Cell escreverNaCelula(Cell celula, Date conteudo) {
+		celula.setCellValue(conteudo);
+		return celula;
+	}
+
+	public Cell escreverNaCelula(Cell celula, Boolean conteudo) {
+		celula.setCellValue(conteudo);
+		return celula;
+	}
+
+	public Boolean isEmptyCell(Cell cell) {
 		if (cell == null || StringUtils.isEmpty(cell.toString().trim())
 				|| cell.getCellType() == Cell.CELL_TYPE_BLANK) {
 			return true;
@@ -53,7 +57,7 @@ public class ArquivoXLS implements Serializable {
 		return false;
 	}
 
-	public static String getStringCellValue(Cell cell) {
+	public String getStringCellValue(Cell cell) {
 		if (isEmptyCell(cell)) {
 			return null;
 		}
@@ -84,7 +88,7 @@ public class ArquivoXLS implements Serializable {
 		}
 	}
 
-	public static Double getNumericCellValue(Cell cell) {
+	public Double getNumericCellValue(Cell cell) {
 
 		Double value = null;
 		if (isEmptyCell(cell)) {

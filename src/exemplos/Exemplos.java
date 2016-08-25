@@ -1,8 +1,6 @@
 package exemplos;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -12,15 +10,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipException;
 
-import org.apache.commons.compress.utils.IOUtils;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import thread.ThreadDinamica;
 import utils.FileUtil;
 import utils.SQLUtil;
-import arquivos.ArquivoXLS;
+import arquivos.excel.ArquivoExcel;
 import bancoDeDados.ConexaoPool;
 
 import com.eas.compression.CompressionException;
@@ -34,25 +31,20 @@ public class Exemplos {
 	public void criarPoolConexaoExemplo() {
 
 		try {
-			// INICIAR POOL BANCO
 			ConexaoPool.initDataSource("chave", ConstantesDBAcess.BANCOSCIENCEBCV);
-			// OBTENDO CONEXAO
 			Connection conn = ConexaoPool.getConnection("chave");
-			// FINALIZANDO CONEXAO
 			SQLUtil.closeConnection(conn);
-			//
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		// FINALIZANDO POOL
 		ConexaoPool.endDataSource("chave");
 	}
-	
+
 	public void metodoTeste(Integer i) {
 		System.out.println("Metodos executado: " + i);
 	}
 
-	public void multThreadExemplo() {
+	public void multThread() {
 
 		int quantidadeThread = 3;
 		int tempoEsperaEntreThread = 0;
@@ -68,24 +60,23 @@ public class Exemplos {
 		while (multiThread.getActiveCount() > 0);
 		multiThread.shutdown();
 	}
-	
-	
-	public void compactarArquivosZIP() {
-		List<File> arquivos = new ArrayList<File>();
-		arquivos.add(new File("D:\\SMARTSTEPS_JOB.log"));
-		arquivos.add(new File("D:\\COMMIT 14JOBS .sql"));
-		try {
-			FileUtil.compactarArquivosZip(arquivos, "D:\\teste.zip");
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
-	}
-	
+
 	public void compactarArquivosBZ() {
 		try {
 			FileUtil.compactarArquivoBZ("D:\\teste.txt");
 		} catch (CompressionException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void compactarArquivosZIP() {
+		List<File> arquivos = new ArrayList<File>();
+		arquivos.add(new File("D:\\teste\\arquivo1.txt"));
+		arquivos.add(new File("D:\\teste\\arquivo2.txt"));
+		try {
+			FileUtil.compactarArquivosZip(arquivos, "D:\\teste\\teste.zip");
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
 	
@@ -111,29 +102,30 @@ public class Exemplos {
 		}
 	}
 	
-//	public void lerXLS() {
-//		try {
-//			HSSFWorkbook w = ArquivoXLS.abrirXLS("D:\\testes\\teste.xls");
-//			org.apache.poi.ss.usermodel.Sheet s = ArquivoXLS.obterAba(w, 0);
-//			Row r = ArquivoXLS.obterLinha(s, 1);
-//			ArquivoXLS.obterCelula(r, 1);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
-
-//	public void criarXLS() {
-//		try {
-//			FileInputStream f = ArquivoXLS.criarArquivoXLS("D:\\testes\\teste.xls");
-//			HSSFWorkbook workbook = new HSSFWorkbook(f);
-//			HSSFSheet s = ArquivoXLS.obterAba(workbook, 0);
-//			Row r = ArquivoXLS.obterLinha(s, 1);
-//			ArquivoXLS.addConteudoColuna(r, "teste", 5);
-//			FileOutputStream conteudo; 
-//			IOUtils.copy(f, conteudo);
-//			ArquivoXLS.salvarAlteracoes(workbook, conteudo);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public void criarExcel() {
+		try {
+			ArquivoExcel arquivo = new ArquivoExcel("D:\\testes\\teste.xlsx");
+			XSSFSheet aba = arquivo.addAba("Aba teste");
+			Row linha = arquivo.addLinha(aba, 1);
+			Cell celula = arquivo.addCelula(linha, 0);
+			arquivo.escreverNaCelula(celula, "Teste");
+			arquivo.salvarArquivo();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void alterarExcel() {
+		try {
+			ArquivoExcel arquivo = new ArquivoExcel("D:\\testes\\teste.xlsx");
+			XSSFSheet aba = arquivo.obterAba(0);
+			Row linha = arquivo.obterLinha(aba, 0);
+			Cell celula = arquivo.obterCelula(linha, 0);
+			arquivo.escreverNaCelula(celula, "novoTeste");
+			arquivo.salvarArquivo();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }

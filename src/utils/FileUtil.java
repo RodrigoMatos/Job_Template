@@ -95,6 +95,21 @@ public class FileUtil {
 			throw e;
 		}
 	}
+	
+	public static File criarArquivo(File file) throws Exception {
+
+		try {
+			if (!file.exists()) {
+				LogUtil.Info("CRIANDO NOVO ARQUIVO ... ");
+				file.createNewFile();
+				LogUtil.Info("ARQUIVO CRIADO COM SUCESSO. ");
+			}
+			return file;
+		} catch (Exception e) {
+			LogUtil.Error("AO CRIAR ARQUIVO: " + e.getMessage());
+			throw e;
+		}
+	}
 
 	public static void criarDirs(String diretorio) {
 		File file = new File(diretorio);

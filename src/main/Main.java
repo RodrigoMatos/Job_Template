@@ -8,7 +8,9 @@ public class Main {
 
 		Exemplos ex = new Exemplos();
 //		ex.descompactarArquivoZIPPara();
-//		ex.criarXLS();
+		
+		ex.criarExcel();
+		ex.alterarExcel();
 	}
 
 }
