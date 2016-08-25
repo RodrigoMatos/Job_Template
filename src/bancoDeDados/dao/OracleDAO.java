@@ -10,7 +10,9 @@ import java.util.StringTokenizer;
 
 import model.EmailVO;
 import model.FtpVO;
-import utils.SQLUtil;
+
+import org.apache.commons.dbutils.DbUtils;
+
 import bancoDeDados.ConexaoPool;
 import constantes.Configuracao;
 
@@ -45,9 +47,7 @@ public class OracleDAO extends DAO {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			SQLUtil.closeResult(rs);
-			SQLUtil.closeStatement(stmt);
-			SQLUtil.closeConnection(conn);
+			DbUtils.closeQuietly(conn,stmt,rs);
 		}
 		return status;
 	}
@@ -71,8 +71,8 @@ public class OracleDAO extends DAO {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			SQLUtil.closeStatement(stmt);
-			SQLUtil.closeConnection(conn);
+			DbUtils.closeQuietly(conn);
+			DbUtils.closeQuietly(stmt);
 		}
 	}
 
@@ -106,9 +106,7 @@ public class OracleDAO extends DAO {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			SQLUtil.closeResult(rs);
-			SQLUtil.closeStatement(stmt);
-			SQLUtil.closeConnection(conn);
+			DbUtils.closeQuietly(conn,stmt,rs);
 		}
 	}
 
@@ -132,8 +130,8 @@ public class OracleDAO extends DAO {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			SQLUtil.closeStatement(stmt);
-			SQLUtil.closeConnection(conn);
+			DbUtils.closeQuietly(conn);
+			DbUtils.closeQuietly(stmt);
 		}
 	}
 
@@ -161,8 +159,8 @@ public class OracleDAO extends DAO {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			SQLUtil.closeStatement(stmt);
-			SQLUtil.closeConnection(conn);
+			DbUtils.closeQuietly(conn);
+			DbUtils.closeQuietly(stmt);
 		}
 	}
 
@@ -187,9 +185,7 @@ public class OracleDAO extends DAO {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			SQLUtil.closeResult(rs);
-			SQLUtil.closeStatement(stmt);
-			SQLUtil.closeConnection(conn);
+			DbUtils.closeQuietly(conn,stmt,rs);
 		}
 	}
 
@@ -215,8 +211,8 @@ public class OracleDAO extends DAO {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			SQLUtil.closeStatement(stmt);
-			SQLUtil.closeConnection(conn);
+			DbUtils.closeQuietly(conn);
+			DbUtils.closeQuietly(stmt);
 		}
 	}
 	
@@ -245,9 +241,7 @@ public class OracleDAO extends DAO {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			SQLUtil.closeResult(rs);
-			SQLUtil.closeStatement(stmt);
-			SQLUtil.closeConnection(conn);
+			DbUtils.closeQuietly(conn,stmt,rs);
 		}
 		return ftpRetorno;
 	}

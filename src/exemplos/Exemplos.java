@@ -10,13 +10,13 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipException;
 
+import org.apache.commons.dbutils.DbUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 
 import thread.ThreadDinamica;
 import utils.FileUtil;
-import utils.SQLUtil;
 import arquivos.excel.ArquivoExcel;
 import bancoDeDados.ConexaoPool;
 
@@ -33,7 +33,7 @@ public class Exemplos {
 		try {
 			ConexaoPool.initDataSource("chave", ConstantesDBAcess.BANCOSCIENCEBCV);
 			Connection conn = ConexaoPool.getConnection("chave");
-			SQLUtil.closeConnection(conn);
+			DbUtils.close(conn);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

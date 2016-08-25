@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
-import utils.SQLUtil;
+import org.apache.commons.dbutils.DbUtils;
+
 import bancoDeDados.ConexaoPool;
 
 public abstract class DAO implements Serializable {
@@ -25,8 +26,8 @@ public abstract class DAO implements Serializable {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			SQLUtil.closeStatement(stmt);
-			SQLUtil.closeConnection(conn);
+			DbUtils.closeQuietly(conn);
+			DbUtils.closeQuietly(stmt);
 		}
 	}
 
