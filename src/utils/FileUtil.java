@@ -12,8 +12,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.zip.DataFormatException;
-import java.util.zip.Inflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -228,32 +226,6 @@ public class FileUtil {
 		out.close();
 	}
 
-	public static byte[] decompressArray(byte[] array, boolean retornaNullErro) throws Exception {	
-
-		Inflater decompressor;
-		ByteArrayOutputStream bos;
-		try {
-        	decompressor = new Inflater();
-            decompressor.setInput(array);
-            bos = new ByteArrayOutputStream(array.length);
-            byte[] buf = new byte[1024];
-            while (!decompressor.finished()){
-                int count = decompressor.inflate(buf);
-                bos.write(buf, 0, count);
-			}
-			bos.close();
-			return bos.toByteArray();
-		} catch (IOException e) {
-			throw e;
-		} catch (DataFormatException e) {
-			if (retornaNullErro) {
-				return null;
-			} else {
-				throw e;
-			}
-		}
-	}
-	
 	public static String compactarArquivoBZ(String dirArquivo) throws CompressionException {
 
 		String caminho = null;
@@ -287,12 +259,9 @@ public class FileUtil {
 	}
 
 	public static FileOutputStream criarArquivoParaEscrita(String dirArquivo) throws FileNotFoundException {
-		FileUtil.criarDirs(dirArquivo);
-		File arquivo = new File(dirArquivo);
-		FileOutputStream fileOut = new FileOutputStream(arquivo);
-		return fileOut;
+		return criarArquivoParaEscrita(new File(dirArquivo));
 	}
-	
+
 	public static FileOutputStream criarArquivoParaEscrita(File arquivo) throws FileNotFoundException {
 		FileUtil.criarDirs(arquivo.getParentFile());
 		FileOutputStream fileOut = new FileOutputStream(arquivo);
