@@ -1,12 +1,12 @@
 package main;
 
-import exemplos.Exemplos;
+import exemplos.ArquivoExcelExemplos;
 
 public class Main {
 
 	public static void main(String[] args) {
 
-		Exemplos ex = new Exemplos();
+		ArquivoExcelExemplos ex = new ArquivoExcelExemplos();
 //		ex.descompactarArquivoZIPPara();
 		
 		ex.criarExcel();

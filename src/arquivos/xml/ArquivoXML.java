@@ -18,7 +18,11 @@ public abstract class ArquivoXML implements Serializable {
 
 	public static Element lerXML(String dirArquivo) throws JDOMException, IOException {
 
-		File fXmlFile = new File(dirArquivo);
+		return lerXML(new File(dirArquivo));
+	}
+	
+	public static Element lerXML(File fXmlFile) throws JDOMException, IOException {
+
 		SAXBuilder sb = new SAXBuilder();
 		Document d = sb.build(fXmlFile);
 		Element conteudo = d.getRootElement();
