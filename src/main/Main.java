@@ -11,11 +11,14 @@ public class Main {
 		ex.criarExcel();
 		ex.alterarExcel();
 		 */
-		
+		/*
 		XMLExemplos ex = new XMLExemplos();
 		
 		ex.lerArquivoXML();
+		*/
 		
+		FtpSftpExemplos sftp = new FtpSftpExemplos();
+		sftp.baixarArquivo();
 	}
 
 }

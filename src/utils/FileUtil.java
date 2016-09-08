@@ -241,13 +241,16 @@ public class FileUtil {
 		return caminho;
 	}
 
-	public static byte[] getBytes(File file) throws IOException {
+	public static byte[] getBytes(String arquivo) throws IOException {
+		return getBytes(new File(arquivo));
+	}
+	public static byte[] getBytes(File arquivo) throws IOException {
 
-		int len = (int) file.length();
+		int len = (int) arquivo.length();
 		byte[] sendBuf = new byte[len];
 		FileInputStream inFile = null;
 		try {
-			inFile = new FileInputStream(file);
+			inFile = new FileInputStream(arquivo);
 			inFile.read(sendBuf, 0, len);
 			inFile.close();
 		} catch (FileNotFoundException fnfex) {
