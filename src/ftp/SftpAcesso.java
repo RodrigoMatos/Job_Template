@@ -27,9 +27,18 @@ public class SftpAcesso implements Serializable {
 	public SftpAcesso() {
 		this.jsch = new JSch();
 	}
+	
+	
+	public void conectar(String servidor, String usuario, String senha) throws Exception {
+		conectar(servidor, usuario, senha, null);
+	}
 
 	public void conectar(String servidor, String usuario, String senha, Integer porta) throws Exception {
 
+		if (isConnected()) {
+			return;
+		}
+		
 		try {
 			if (porta == null)
 				this.session = jsch.getSession(usuario, servidor);
