@@ -110,7 +110,7 @@ public class FtpAcesso implements Serializable {
 	}
 
 	private void validarConexao() throws Exception {
-		if (!this.ftp.isConnected()) {
+		if (!this.isConnected()) {
 			this.conectar(this.servidor, this.usuario, this.senha);
 		}
 	}
