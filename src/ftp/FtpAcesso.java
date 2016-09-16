@@ -26,6 +26,10 @@ public class FtpAcesso implements Serializable {
 
 	public void conectar(String servidor, String usuario, String senha) throws Exception {
 
+		if (isConnected()) {
+			return;
+		}
+		
 		try {
 			this.servidor = servidor;
 			this.usuario = usuario;
@@ -106,7 +110,7 @@ public class FtpAcesso implements Serializable {
 	}
 
 	private void validarConexao() throws Exception {
-		if (!this.ftp.isConnected()) {
+		if (!this.isConnected()) {
 			this.conectar(this.servidor, this.usuario, this.senha);
 		}
 	}

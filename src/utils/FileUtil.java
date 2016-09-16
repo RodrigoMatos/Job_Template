@@ -270,4 +270,14 @@ public class FileUtil {
 		FileOutputStream fileOut = new FileOutputStream(arquivo);
 		return fileOut;
 	}
+	
+	public static void deleteDir(File file) {
+	    File[] contents = file.listFiles();
+	    if (contents != null) {
+	        for (File f : contents) {
+	            deleteDir(f);
+	        }
+	    }
+	    file.delete();
+	}
 }
