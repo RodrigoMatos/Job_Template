@@ -9,6 +9,7 @@ import java.io.OutputStream;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -48,6 +49,39 @@ public class ArquivoExcel extends ArquivoExcelGenerico {
 			this.workbook = new XSSFWorkbook();
 			System.out.println();
 		}
+	}
+	
+	public void AutoDimensionarColunas(Sheet aba) {
+		if (aba != null) {
+			for (int i = 0; i < this.getNumeroDeColunas(aba); i++) {
+				aba.autoSizeColumn(i);
+			}
+		}
+	}
+	
+	public void AutoDimensionarColunas(int indiceSheet) {
+		Sheet aba = this.workbook.getSheetAt(indiceSheet);
+		AutoDimensionarColunas(aba);
+	}
+	
+	public Integer getNumeroDeColunas(Sheet aba){
+		Integer numeroDeColunas = 0;
+		if (aba != null) {
+			int numeroDeLinhas = aba.getLastRowNum();
+			short numeroUltimaCelula = 0;
+			for (int i = 0; i < numeroDeLinhas; i++) {
+				numeroUltimaCelula = aba.getRow(i).getLastCellNum();
+				if (numeroDeColunas < numeroUltimaCelula) {
+					numeroDeColunas = new Integer(numeroUltimaCelula);
+				}
+			}
+		}
+		return numeroDeColunas;
+	}
+	
+	public Integer getNumeroDeColunas(Integer indiceSheet){
+		Sheet aba = this.workbook.getSheetAt(indiceSheet);
+		return getNumeroDeColunas(aba);
 	}
 
 	public XSSFWorkbook getWorkbook() {
@@ -104,4 +138,5 @@ public class ArquivoExcel extends ArquivoExcelGenerico {
 		this.workbook = null;
 		this.alteracao = null;
 	}
+	
 }
