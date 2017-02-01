@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipException;
-
 import utils.FileUtil;
-
 import com.eas.compression.CompressionException;
+
+/**
+ * @author romatos
+ * @version 1.0
+ */
 
 public class CompactarArquivoExemplos {
 

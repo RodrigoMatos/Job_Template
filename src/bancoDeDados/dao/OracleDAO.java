@@ -1,29 +1,31 @@
 package bancoDeDados.dao;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
-
 import model.EmailVO;
 import model.FtpVO;
-
 import org.apache.commons.dbutils.DbUtils;
-
 import bancoDeDados.ConexaoPool;
-import constantes.Configuracao;
+import constantes.Constantes;
 
-public class OracleDAO extends DAO {
+/**
+ * @author romatos
+ * @version 1.0
+ */
+
+public abstract class OracleDAO extends DAO {
 
 	private static final long serialVersionUID = 3622455715697490967L;
 
 	protected static String chave = "SCIENCE";
-
-	public OracleDAO() {
-	}
 
 	public static boolean isAtivo() throws Exception {
 
@@ -33,7 +35,7 @@ public class OracleDAO extends DAO {
 		StringBuilder sql = new StringBuilder();
 		boolean status = false;
 
-		sql.append(" SELECT STR_BLOQUEADO FROM SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ").append(Configuracao.PARAM_SEQ_SERVICO_SCIENCE);
+		sql.append(" SELECT STR_BLOQUEADO FROM SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ").append(Constantes.PARAM_SEQ_SERVICO_SCIENCE);
 
 		try {
 			conn = ConexaoPool.getConnection(chave);
@@ -62,7 +64,7 @@ public class OracleDAO extends DAO {
 		sql.append("     CALLMAP.CONTROLE_SERVICO  ");
 		sql.append(" SET  ");
 		sql.append("     DAT_ULTIMO_ACESSO  = SYSDATE ");
-		sql.append(" WHERE COD_SERVICO = ").append(Configuracao.PARAM_COD_SERVICO);
+		sql.append(" WHERE COD_SERVICO = ").append(Constantes.PARAM_COD_SERVICO);
 
 		try {
 			conn = ConexaoPool.getConnection(chave);
@@ -86,7 +88,7 @@ public class OracleDAO extends DAO {
 
 		sql.append(" SELECT VALOR_APPLICATION_CONFIG  ");
 		sql.append(" FROM APPLICATION_CONFIG  ");
-		sql.append(" WHERE SIG_APPLICATION_CONFIG = '").append(Configuracao.PARAM_EMAIL_NOTIF).append("'");
+		sql.append(" WHERE SIG_APPLICATION_CONFIG = '").append(Constantes.PARAM_EMAIL_NOTIF).append("'");
 
 		try {
 			conn = ConexaoPool.getConnection(chave);
@@ -114,7 +116,6 @@ public class OracleDAO extends DAO {
 
 		Connection conn = null;
 		PreparedStatement stmt = null;
-
 		StringBuilder sql = new StringBuilder();
 		sql.append("INSERT INTO CALLMAP.E_MAIL (COD_EMAIL, DES_DE, DES_PARA, DES_ASSUNTO, DES_MESSAGEM) ");
 		sql.append(" VALUES (CALLMAP.SEQ_EMAIL.NEXTVAL, ? ,?, ?, ?) ");
@@ -134,7 +135,6 @@ public class OracleDAO extends DAO {
 			DbUtils.closeQuietly(stmt);
 		}
 	}
-
 
 	public static EmailVO enviarEmailComAnexo(EmailVO emailVO) throws Exception {
 
@@ -215,7 +215,7 @@ public class OracleDAO extends DAO {
 			DbUtils.closeQuietly(stmt);
 		}
 	}
-	
+
 	public static FtpVO consultarFTP() throws Exception {
 
 		Connection conn = null;
@@ -225,7 +225,7 @@ public class OracleDAO extends DAO {
 		FtpVO ftpRetorno = null;
 
 		sql.append(" SELECT NOM_LOGIN_FTP, STR_SENHA_FTP, STR_HOST_FTP, STR_DIRETORIO ");
-		sql.append(" FROM SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ").append(Configuracao.PARAM_SEQ_SERVICO_SCIENCE);
+		sql.append(" FROM SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ").append(Constantes.PARAM_SEQ_SERVICO_SCIENCE);
 
 		try {
 			conn = ConexaoPool.getConnection(chave);
@@ -241,9 +241,46 @@ public class OracleDAO extends DAO {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			DbUtils.closeQuietly(conn,stmt,rs);
+			DbUtils.closeQuietly(conn, stmt, rs);
 		}
 		return ftpRetorno;
+	}
+
+	public static File consultarXmlConfiguracao() throws Exception {
+
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		StringBuilder sql = new StringBuilder();
+		File file = null;
+
+		sql.append("SELECT BLOB_XML_CONFIG, STR_XML_CONFIG_NOME FROM SCIENCE.SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ").append(Constantes.PARAM_SEQ_SERVICO_SCIENCE);
+
+		try {
+			conn = ConexaoPool.getConnection(chave);
+			stmt = conn.prepareStatement(sql.toString());
+			rs = stmt.executeQuery();
+			if (rs.next()) {
+				Blob blob = rs.getBlob("BLOB_XML_CONFIG");
+				if (blob == null) {
+					return null;
+				}
+				String nomeArquivo = rs.getString("STR_XML_CONFIG_NOME");
+				if (nomeArquivo == null || "".equals(nomeArquivo)) {
+					nomeArquivo = "configErbProjetoAntena.xml";
+				}
+				byte [] array = blob.getBytes(1, (int) blob.length());
+			    file = File.createTempFile(nomeArquivo, "", new File("."));
+			    FileOutputStream out = new FileOutputStream(file);
+			    out.write(array);
+			    out.close();
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			DbUtils.closeQuietly(conn, stmt, rs);
+		}
+		return file;
 	}
 
 }

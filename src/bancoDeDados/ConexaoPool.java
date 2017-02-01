@@ -4,9 +4,7 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
-
 import model.BancoDadosVO;
-
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 
@@ -15,11 +13,11 @@ import com.jolbox.bonecp.BoneCPConfig;
  * @version 1.0
  */
 
-public class ConexaoPool implements Serializable {
-	
+public abstract class ConexaoPool implements Serializable {
+
 	private static final long serialVersionUID = -6239447368291477751L;
 	private static Map<String, BoneCP> connectionPool;
-	
+
 	/**
 	 * Método que finaliza um pool de conexão.
 	 * @param String - Chave da conexão.
@@ -36,13 +34,14 @@ public class ConexaoPool implements Serializable {
 	 * @return Connection - Retorna uma conexão referente ao parâmetro 'chave'.
 	 */
 	public static Connection getConnection(String chave) throws Exception {
+
 		if (connectionPool.get(chave) != null) {
 			return connectionPool.get(chave).getConnection();
 		} else {
 			throw new Exception("POOL NÃO INICIALIZADO (" + chave + ").");
 		}
 	}
-	
+
 	/**
 	 * Criar um pool de conexão.
 	 * @author romatos
@@ -50,6 +49,7 @@ public class ConexaoPool implements Serializable {
 	 * @param BancoDadosVO - Configurações para criar pool.
 	 */
 	public static void initDataSource(String chave, BancoDadosVO banco) throws Exception {
+
 		try {
 			Class.forName(banco.getClassForName());
 		} catch (Exception e) {
@@ -61,13 +61,10 @@ public class ConexaoPool implements Serializable {
 			config.setJdbcUrl(banco.getUrlBancoDados());
 			config.setUsername(banco.getUsuario());
 			config.setPassword(banco.getSenha());
-
             config.setMinConnectionsPerPartition(banco.getQtdConexoes());
             config.setMaxConnectionsPerPartition(banco.getQtdConexoes());
             config.setPartitionCount(banco.getQtdParticoes());
-
             config.setDefaultAutoCommit(banco.isAutoCommit());
-            
 			if (connectionPool == null) {
 				connectionPool = new HashMap<String, BoneCP>();
 			}
@@ -77,5 +74,5 @@ public class ConexaoPool implements Serializable {
 			throw ex;
 		}
 	}
-	
+
 }

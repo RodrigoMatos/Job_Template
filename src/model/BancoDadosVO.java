@@ -8,7 +8,7 @@ import java.io.Serializable;
  */
 
 public class BancoDadosVO implements Serializable {
-	
+
 	private static final long serialVersionUID = -7127614751869751996L;
 	private String urlBancoDados;
 	private String usuario;
@@ -17,7 +17,7 @@ public class BancoDadosVO implements Serializable {
 	private Integer qtdConexoes;
 	private Integer qtdParticoes;
 	private Boolean autoCommit;
-	
+
 	/**
 	 * @param String - URL do banco de dados para acesso.
 	 * @param String - Usuario para acesso ao banco de dados.
@@ -46,7 +46,7 @@ public class BancoDadosVO implements Serializable {
 	public String getUrlBancoDados() {
 		return urlBancoDados;
 	}
-	
+
 	/**
 	 * @author romatos
 	 * @param String - URL do banco de dados para acesso.
@@ -54,7 +54,7 @@ public class BancoDadosVO implements Serializable {
 	public void setUrlBancoDados(String urlBancoDados) {
 		this.urlBancoDados = urlBancoDados;
 	}
-	
+
 	/**
 	 * @author romatos
 	 * @return String - Usuario do banco de dados.
@@ -62,7 +62,7 @@ public class BancoDadosVO implements Serializable {
 	public String getUsuario() {
 		return usuario;
 	}
-	
+
 	/**
 	 * @author romatos
 	 * @param String - Usuario para acesso ao banco de dados.
@@ -70,7 +70,7 @@ public class BancoDadosVO implements Serializable {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
-	
+
 	/**
 	 * @author romatos
 	 * @return String - Senha do banco de dados.
@@ -78,7 +78,7 @@ public class BancoDadosVO implements Serializable {
 	public String getSenha() {
 		return senha;
 	}
-	
+
 	/**
 	 * @author romatos
 	 * @param String - Senha para acesso ao banco de dados.
@@ -86,7 +86,7 @@ public class BancoDadosVO implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	
+
 	/**
 	 * @author romatos
 	 * @return String - Driver do banco de dados.
@@ -94,7 +94,7 @@ public class BancoDadosVO implements Serializable {
 	public String getClassForName() {
 		return classForName;
 	}
-	
+
 	/**
 	 * @author romatos
 	 * @param String - Nome do drive para acesso ao banco de dados.
@@ -102,7 +102,7 @@ public class BancoDadosVO implements Serializable {
 	public void setClassForName(String classForName) {
 		this.classForName = classForName;
 	}
-	
+
 	/**
 	 * @author romatos
 	 * @return Integer - Quantidade de conexões por partições.
@@ -134,7 +134,7 @@ public class BancoDadosVO implements Serializable {
 	public void setQtdParticoes(Integer qtdParticoes) {
 		this.qtdParticoes = qtdParticoes;
 	}
-	
+
 	/**
 	 * @author romatos
 	 * @return Boolean - Status do commit do pool de conexão.
@@ -195,5 +195,5 @@ public class BancoDadosVO implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

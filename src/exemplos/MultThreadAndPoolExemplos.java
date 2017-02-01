@@ -4,12 +4,15 @@ import java.sql.Connection;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-
 import org.apache.commons.dbutils.DbUtils;
-
 import thread.ThreadDinamica;
 import bancoDeDados.ConexaoPool;
 import constantes.ConstantesDBAcess;
+
+/**
+ * @author romatos
+ * @version 1.0
+ */
 
 public class MultThreadAndPoolExemplos {
 
@@ -45,5 +48,5 @@ public class MultThreadAndPoolExemplos {
 		while (multiThread.getActiveCount() > 0);
 		multiThread.shutdown();
 	}
-	
+
 }

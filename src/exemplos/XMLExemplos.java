@@ -3,24 +3,27 @@ package exemplos;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import org.jdom2.Element;
+import utils.XmlUtils;
 
-import arquivos.xml.ArquivoXML;
+/**
+ * @author romatos
+ * @version 1.0
+ */
 
-public class XMLExemplos {
+public abstract class XMLExemplos {
 
-	public void lerArquivoXML() {
-		
+	public static void lerArquivoXML() {
+
 		try {
-			Element arquivoXML = ArquivoXML.lerXML("D:\\testes\\teste.xml");
-			List elements = ArquivoXML.getFilhos(arquivoXML, "ELEMENT");
-			
+			Element arquivoXML = XmlUtils.lerXML("D:\\testes\\teste.xml");
+			List elements = XmlUtils.getFilhos(arquivoXML, "ELEMENT");
+
 			Iterator i = elements.iterator();
-			Map<String,String> filho;			
+			Map<String, String> filho;
 			while (i.hasNext()) {
 				Element element = (Element) i.next();
-				filho = ArquivoXML.getConteudoDoFilho(element);
+				filho = XmlUtils.getConteudoDoFilho(element);
 				System.out.println("Codigo: " + filho.get("CODIGO"));
 				System.out.println("Descrição: " + filho.get("DESCRICAO"));
 				System.out.println();
@@ -29,5 +32,5 @@ public class XMLExemplos {
 			e.printStackTrace();
 		}
 	}
-	
+
 }

@@ -1,22 +1,25 @@
 package rn;
 
 import java.io.Serializable;
-
 import utils.LogUtil;
 import bancoDeDados.dao.OracleDAO;
+
+/**
+ * @author romatos
+ * @version 1.0
+ */
 
 public class RegraDeNegocio implements Serializable {
 
 	private static final long serialVersionUID = -2821161670762304175L;
 
-	public RegraDeNegocio() {
-	}
+	public RegraDeNegocio() { }
 
-	public void deletarRegistros(String tabela) {
+	public void deletarRegistros(String tabela, String chave) {
 
 		try {
 			LogUtil.Info("DELETANDO REGISTROS (" + tabela + ") ...");
-			OracleDAO.deletarRegistroTabela(tabela, "chave");
+			OracleDAO.deletarRegistroTabela(tabela, chave);
 			LogUtil.Info("REGISTROS DELETADOS COM SUCESSO (" + tabela + ").");
 		} catch (Exception e) {
 			LogUtil.Error("ERRO AO DELETAR REGISTRO (" + tabela + "): " + e.getMessage());

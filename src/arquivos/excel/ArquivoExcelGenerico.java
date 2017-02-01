@@ -4,51 +4,128 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 
+/**
+ * @author romatos
+ * @version 1.0
+ */
+
 public abstract class ArquivoExcelGenerico implements Serializable {
 
 	private static final long serialVersionUID = -7057834817253947024L;
-	
-	public void escreverNaCelula(Row linha, String conteudo, int indexColuna) {
-		linha.createCell(indexColuna).setCellValue(conteudo);
+
+	/**
+	 * @author romatos
+	 * @param linha - Indice da linha.
+	 * @param indexColuna - Indice da coluna que irá escrever o valor.
+	 * @param conteúdo - Conteudo String que será escrito na celula.
+	 * @return Retorna a celula que foi escrita.
+	 */
+	public Cell escreverNaCelula(Row linha, Integer indexColuna, String conteudo) {
+		if (linha.getCell(indexColuna) == null) {
+			linha.createCell(indexColuna);
+		}
+		return this.escreverNaCelula(linha.getCell(indexColuna), conteudo);
 	}
 
-	public void escreverNaCelula(Row linha, Double conteudo, int indexColuna) {
-		linha.createCell(indexColuna).setCellValue(conteudo);
+	/**
+	 * @author romatos
+	 * @param linha - Indice da linha.
+	 * @param indexColuna - Indice da coluna que irá escrever o valor.
+	 * @param conteudo - Conteúdo Double que será escrito na celula.
+	 * @return Retorna a celula que foi escrita.
+	 */
+	public Cell escreverNaCelula(Row linha, Integer indexColuna, Double conteudo) {
+		if (linha.getCell(indexColuna) == null) {
+			linha.createCell(indexColuna);
+		}
+		return this.escreverNaCelula(linha.getCell(indexColuna), conteudo);
 	}
 
-	public void escreverNaCelula(Row linha, Date conteudo, int indexColuna) {
-		linha.createCell(indexColuna).setCellValue(conteudo);
+	/**
+	 * @author romatos
+	 * @param linha - Indice da linha.
+	 * @param indexColuna - Indice da coluna que irá escrever o valor.
+	 * @param conteudo - Conteúdo Date que será escrito na celula.
+	 * @return Retorna a celula que foi escrita.
+	 */
+	public Cell escreverNaCelula(Row linha, Integer indexColuna, Date conteudo) {
+		if (linha.getCell(indexColuna) == null) {
+			linha.createCell(indexColuna);
+		}
+		return this.escreverNaCelula(linha.getCell(indexColuna), conteudo);
 	}
 
-	public void escreverNaCelula(Row linha, Boolean conteudo, int indexColuna) {
-		linha.createCell(indexColuna).setCellValue(conteudo);
+	/**
+	 * @author romatos
+	 * @param linha - Indice da linha.
+	 * @param indexColuna - Indice da coluna que irá escrever o valor.
+	 * @param conteudo - Conteúdo Boolean que será escrito na celula.
+	 * @return Retorna a celula que foi escrita.
+	 */
+	public Cell escreverNaCelula(Row linha, Integer indexColuna, Boolean conteudo) {
+		if (linha.getCell(indexColuna) == null) {
+			linha.createCell(indexColuna);
+		}
+		return this.escreverNaCelula(linha.getCell(indexColuna), conteudo);
 	}
 
+	/**
+	 * @author romatos
+	 * @param celula - Celula que irá escrever o valor.
+	 * @param conteudo - Conteúdo String que será escrito na celula.
+	 * @return Retorna a celula que foi escrita.
+	 */
 	public Cell escreverNaCelula(Cell celula, String conteudo) {
-		celula.setCellValue(conteudo);
+		if (conteudo != null)
+			celula.setCellValue(conteudo);
 		return celula;
 	}
 
+	/**
+	 * @author romatos
+	 * @param celula - Celula que irá escrever o valor.
+	 * @param conteudo - Conteúdo Double que será escrito na celula.
+	 * @return Retorna a celula que foi escrita.
+	 */
 	public Cell escreverNaCelula(Cell celula, Double conteudo) {
-		celula.setCellValue(conteudo);
+		if (conteudo != null)
+			celula.setCellValue(conteudo);
 		return celula;
 	}
 
+	/**
+	 * @author romatos
+	 * @param celula - Celula que irá escrever o valor.
+	 * @param conteudo - Conteúdo Date que será escrito na celula.
+	 * @return Retorna a celula que foi escrita.
+	 */
 	public Cell escreverNaCelula(Cell celula, Date conteudo) {
-		celula.setCellValue(conteudo);
+		if (conteudo != null)
+			celula.setCellValue(conteudo);
 		return celula;
 	}
 
+	/**
+	 * @author romatos
+	 * @param celula - Celula que irá escrever o valor.
+	 * @param conteudo - Conteúdo Boolean que será escrito na celula.
+	 * @return Retorna a celula que foi escrita.
+	 */
 	public Cell escreverNaCelula(Cell celula, Boolean conteudo) {
-		celula.setCellValue(conteudo);
+		if (conteudo != null)
+			celula.setCellValue(conteudo);
 		return celula;
 	}
 
+	/**
+	 * @author romatos
+	 * @param cell - Celula que será verificada.
+	 * @return Retorna true ou false para caso a celula esteja vazia.
+	 */
 	public Boolean isEmptyCell(Cell cell) {
 		if (cell == null || StringUtils.isEmpty(cell.toString().trim())
 				|| cell.getCellType() == Cell.CELL_TYPE_BLANK) {
@@ -57,6 +134,11 @@ public abstract class ArquivoExcelGenerico implements Serializable {
 		return false;
 	}
 
+	/**
+	 * @author romatos
+	 * @param cell - Celula que será verificada.
+	 * @return Retorna o conteúdo em String existente na celula.
+	 */
 	public String getStringCellValue(Cell cell) {
 		if (isEmptyCell(cell)) {
 			return null;
@@ -71,8 +153,14 @@ public abstract class ArquivoExcelGenerico implements Serializable {
 		}
 		return value;
 	}
-	
+
+	/**
+	 * @author romatos
+	 * @param cell - Celula que será verificada.
+	 * @return Retorna o conteúdo em Date existente na celula.
+	 */
 	public Date getDateCellValue(Cell cell) throws ParseException {
+
 		if (isEmptyCell(cell)) {
 			return null;
 		}
@@ -88,6 +176,11 @@ public abstract class ArquivoExcelGenerico implements Serializable {
 		}
 	}
 
+	/**
+	 * @author romatos
+	 * @param cell - Celula que será verificada.
+	 * @return Retorna o conteúdo em Double existente na celula.
+	 */
 	public Double getNumericCellValue(Cell cell) {
 
 		Double value = null;
@@ -108,7 +201,12 @@ public abstract class ArquivoExcelGenerico implements Serializable {
 		}
 		return value;
 	}
-	
+
+	/**
+	 * @author romatos
+	 * @param cell - Celula que será verificada.
+	 * @return Retorna o conteúdo em Long existente na celula.
+	 */
 	public Long getLongCellValue(Cell cell) {		
 
 		Long value = null;

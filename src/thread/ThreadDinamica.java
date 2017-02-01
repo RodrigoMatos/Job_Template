@@ -1,6 +1,6 @@
 package thread;
 
-import java.lang.reflect.Method;
+import reflexao.ExecutorMetodo;
 
 /**
  * @author romatos
@@ -28,16 +28,7 @@ public class ThreadDinamica extends Thread {
 	@Override
 	public void run() {
 		try {
-			@SuppressWarnings("rawtypes")
-			Class[] classParametros = null;
-			if (this.parametros != null) {
-				classParametros = new Class[this.parametros.length];
-				for (int i = 0; i < this.parametros.length; i++) {
-					classParametros[i] = this.parametros[i].getClass();
-				}
-			}
-			Method metodoEx = this.entidade.getClass().getMethod(this.metodo, classParametros);
-			metodoEx.invoke(this.entidade, this.parametros);
+			ExecutorMetodo.executarMetodo(this.entidade, this.metodo, this.parametros);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

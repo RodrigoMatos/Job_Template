@@ -3,6 +3,11 @@ package model;
 import java.io.File;
 import java.io.Serializable;
 
+/**
+ * @author romatos
+ * @version 1.0
+ */
+
 public class EmailVO implements Serializable {
 
 	private static final long serialVersionUID = 4962084057112535801L;
@@ -65,5 +70,5 @@ public class EmailVO implements Serializable {
 	public void setPara(String para) {
 		this.para = para;
 	}
-	
+
 }

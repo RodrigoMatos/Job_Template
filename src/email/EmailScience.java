@@ -2,10 +2,14 @@ package email;
 
 import java.io.Serializable;
 import java.util.List;
-
 import model.EmailVO;
 import utils.LogUtil;
 import bancoDeDados.dao.OracleDAO;
+
+/**
+ * @author romatos
+ * @version 1.0
+ */
 
 public class EmailScience implements Serializable {
 

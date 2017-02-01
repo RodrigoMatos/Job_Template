@@ -2,6 +2,11 @@ package model;
 
 import java.io.Serializable;
 
+/**
+ * @author romatos
+ * @version 1.0
+ */
+
 public class FtpVO implements Serializable {
 
 	private static final long serialVersionUID = 3139660600249334104L;
@@ -10,6 +15,31 @@ public class FtpVO implements Serializable {
 	private String usuario;
 	private String senha;
 	private String diretorio;
+	private Integer porta;
+
+	public FtpVO() {
+	}
+
+	public FtpVO(String servidor, String usuario, String senha, String diretorio, Integer porta) {
+		this.servidor = servidor;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.diretorio = diretorio;
+		this.porta = porta;
+	}
+
+	public FtpVO(String servidor, String usuario, String senha, String diretorio) {
+		this.servidor = servidor;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.diretorio = diretorio;
+	}
+
+	public FtpVO(String servidor, String usuario, String senha) {
+		this.servidor = servidor;
+		this.usuario = usuario;
+		this.senha = senha;
+	}
 
 	public String getServidor() {
 		return servidor;
@@ -41,6 +71,14 @@ public class FtpVO implements Serializable {
 
 	public void setDiretorio(String diretorio) {
 		this.diretorio = diretorio;
+	}
+
+	public Integer getPorta() {
+		return porta;
+	}
+
+	public void setPorta(Integer porta) {
+		this.porta = porta;
 	}
 
 }

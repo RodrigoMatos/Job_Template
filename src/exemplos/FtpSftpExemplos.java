@@ -1,21 +1,28 @@
 package exemplos;
 
-import utils.FileUtil;
-import ftp.SftpAcesso;
+import constantes.EnumTipoAcessoServidor;
 import model.FtpVO;
+import utils.FileUtil;
+import ftpSftp.FtpSftp;
 
-public class FtpSftpExemplos {
+/**
+ * @author romatos
+ * @version 1.0
+ */
 
-	public void baixarArquivo(){
+public abstract class FtpSftpExemplos {
+
+	public static void baixarArquivo() {
+
 		FtpVO ftp = new FtpVO();
 		ftp.setServidor("10.72.18.129");
 		ftp.setUsuario("wls11");
 		ftp.setSenha("wls11");
-		
-		SftpAcesso sftp = new SftpAcesso();
-		
+
+		FtpSftp sftp = new FtpSftp(ftp, EnumTipoAcessoServidor.SFTP);
+
 		try {
-			sftp.conectar(ftp.getServidor(), ftp.getUsuario(), ftp.getSenha(), null);
+			sftp.conectar();
 			sftp.cd("/home2/weblogic11/");
 			FileUtil.criarDirs("D:\\TesteSftp\\");
 			sftp.download("/home2/weblogic11/RanSharing/aplication_files/sience/ransharing/RS3-Base_Dados_Fisicos-V20160826.xlsx", "D:\\TesteSftp\\");
@@ -25,5 +32,5 @@ public class FtpSftpExemplos {
 			sftp.desconectar();
 		}
 	}
-	
+
 }
