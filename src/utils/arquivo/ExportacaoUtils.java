@@ -1,4 +1,4 @@
-package utils;
+package utils.arquivo;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -9,6 +9,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
 import reflexao.ReflexaoUtils;
+import utils.LogUtil;
 import arquivos.excel.ArquivoExcel;
 import bancoDeDados.dao.DAO;
 

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import model.ConfigVO;
 import utils.LogUtil;
-import utils.XmlUtils;
+import utils.arquivo.XmlUtils;
 import bancoDeDados.dao.OracleDAO;
 
 public abstract class Configuracao {

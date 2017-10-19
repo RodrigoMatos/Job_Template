@@ -5,7 +5,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.Serializable;
 import java.util.List;
-import utils.FileUtil;
+
+import utils.arquivo.FileUtil;
 
 /**
  * @author romatos

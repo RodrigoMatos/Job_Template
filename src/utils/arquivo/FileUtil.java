@@ -1,4 +1,4 @@
-package utils;
+package utils.arquivo;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
@@ -20,6 +20,8 @@ import org.apache.commons.io.FileUtils;
 import com.eas.compression.CompressionException;
 import com.eas.compression.CompressionHandler;
 import com.eas.compression.GZipHandler;
+
+import utils.LogUtil;
 
 /**
  * @author romatos

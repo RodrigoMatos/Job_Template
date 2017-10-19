@@ -4,7 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.jdom2.Element;
-import utils.XmlUtils;
+
+import utils.arquivo.XmlUtils;
 
 /**
  * @author romatos

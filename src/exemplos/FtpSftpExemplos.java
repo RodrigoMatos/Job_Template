@@ -2,7 +2,7 @@ package exemplos;
 
 import constantes.EnumTipoAcessoServidor;
 import model.FtpVO;
-import utils.FileUtil;
+import utils.arquivo.FileUtil;
 import ftpSftp.FtpSftp;
 
 /**

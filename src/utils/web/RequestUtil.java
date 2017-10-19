@@ -1,4 +1,4 @@
-package utils;
+package utils.web;
 
 import javax.servlet.http.HttpServletRequest;
 

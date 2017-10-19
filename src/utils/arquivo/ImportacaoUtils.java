@@ -1,4 +1,4 @@
-package utils;
+package utils.arquivo;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import arquivos.excel.ArquivoExcel;
+import utils.LogUtil;
 
 /**
  * @author romatos
