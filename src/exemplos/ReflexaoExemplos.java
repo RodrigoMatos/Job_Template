@@ -1,7 +1,7 @@
 package exemplos;
 
 import model.BancoDadosVO;
-import reflexao.ExecutorMetodo;
+import reflexao.ReflexaoUtils;
 import bancoDeDados.ConexaoPool;
 
 /**
@@ -12,11 +12,11 @@ import bancoDeDados.ConexaoPool;
 public class ReflexaoExemplos {
 
 	public static void criarPoolConexao(String chave, BancoDadosVO banco) throws Exception {
-		ExecutorMetodo.executarMetodo(ConexaoPool.class, null, "initDataSource", chave, banco);
+		ReflexaoUtils.executarMetodo(ConexaoPool.class, null, "initDataSource", chave, banco);
 	}
 
 	public static void finalizarPoolConexao(String chave) throws Exception {
-		ExecutorMetodo.executarMetodo(ConexaoPool.class, null, "endDataSource", chave);
+		ReflexaoUtils.executarMetodo(ConexaoPool.class, null, "endDataSource", chave);
 	}
 
 }

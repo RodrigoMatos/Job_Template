@@ -8,7 +8,7 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
-import reflexao.ExecutorMetodo;
+import reflexao.ReflexaoUtils;
 import arquivos.excel.ArquivoExcel;
 import bancoDeDados.dao.DAO;
 
@@ -75,7 +75,7 @@ public abstract class ExportacaoUtils {
 			indexCelula = 0;
 			for (String atributo : atributos) {
 				celula = arquivoExcel.addCelula(linha, indexCelula++);
-				valorGet = ExecutorMetodo.executarMetodoGet(obj, atributo);
+				valorGet = ReflexaoUtils.executarMetodoGet(obj, atributo);
 				if (valorGet == null) {
 					valorGet = "";
 				}

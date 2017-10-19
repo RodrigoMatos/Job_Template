@@ -1,6 +1,6 @@
 package thread;
 
-import reflexao.ExecutorMetodo;
+import reflexao.ReflexaoUtils;
 
 /**
  * @author romatos
@@ -28,7 +28,7 @@ public class ThreadDinamica extends Thread {
 	@Override
 	public void run() {
 		try {
-			ExecutorMetodo.executarMetodo(this.entidade, this.metodo, this.parametros);
+			ReflexaoUtils.executarMetodo(this.entidade, this.metodo, this.parametros);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
