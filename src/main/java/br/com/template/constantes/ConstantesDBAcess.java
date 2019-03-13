@@ -7,7 +7,10 @@ import br.com.template.model.BancoDadosVO;
  * @version 1.0
  */
 
-public abstract class ConstantesDBAcess {
+public final class ConstantesDBAcess {
+
+	private ConstantesDBAcess() {
+	}
 
 	public static final BancoDadosVO BANCO_1 = new BancoDadosVO
 			( "jdbc:oracle:thin:@URL_SERVIDOR:PORTA/SID"

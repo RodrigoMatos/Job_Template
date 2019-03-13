@@ -10,7 +10,10 @@ import org.slf4j.LoggerFactory;
  * @version 1.0
  */
 
-public abstract class LogUtil {
+public final class LogUtil {
+
+	private LogUtil() {
+	}
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LogUtil.class);
 
@@ -20,8 +23,8 @@ public abstract class LogUtil {
 
 	/**
 	 * @author romatos
-	 * @param mensagem - Texto que ser� exibido.
-	 * Exibe um texto INFO no cosole e escreve no arquivo de log.
+	 * @param mensagem - Texto que ser� exibido. Exibe um texto INFO no cosole e
+	 *                 escreve no arquivo de log.
 	 */
 	public static void Info(String mensagem) {
 		LOGGER.info(" " + mensagem);
@@ -30,8 +33,8 @@ public abstract class LogUtil {
 
 	/**
 	 * @author romatos
-	 * @param mensagem - Texto que ser� exibido.
-	 * Exibe um texto de ERROR no cosole e escreve no arquivo de log.
+	 * @param mensagem - Texto que ser� exibido. Exibe um texto de ERROR no cosole e
+	 *                 escreve no arquivo de log.
 	 */
 	public static void Error(String mensagem) {
 		LOGGER.error(mensagem);
@@ -41,8 +44,8 @@ public abstract class LogUtil {
 
 	/**
 	 * @author romatos
-	 * @param mensagem - Texto que ser� exibido.
-	 * Exibe um texto de ERROR no cosole e escreve no arquivo de log.
+	 * @param mensagem - Texto que ser� exibido. Exibe um texto de ERROR no cosole e
+	 *                 escreve no arquivo de log.
 	 */
 	public static void Error(String mensagem, Throwable e) {
 		LOGGER.error(mensagem, e);
@@ -52,8 +55,8 @@ public abstract class LogUtil {
 
 	/**
 	 * @author romatos
-	 * @param mensagem - Texto que ser� exibido.
-	 * Exibe um texto TRACE no cosole e escreve no arquivo de log.
+	 * @param mensagem - Texto que ser� exibido. Exibe um texto TRACE no cosole e
+	 *                 escreve no arquivo de log.
 	 */
 	public static void Trace(String mensagem) {
 		LOGGER.trace(mensagem);
@@ -62,8 +65,8 @@ public abstract class LogUtil {
 
 	/**
 	 * @author romatos
-	 * @param mensagem - Texto que ser� exibido.
-	 * Exibe um texto de WARN no cosole e escreve no arquivo de log.
+	 * @param mensagem - Texto que ser� exibido. Exibe um texto de WARN no cosole e
+	 *                 escreve no arquivo de log.
 	 */
 	public static void Warn(String mensagem) {
 		LOGGER.warn(" " + mensagem);

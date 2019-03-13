@@ -10,15 +10,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 
+import br.com.template.annotations.FieldFileConfig;
+import br.com.template.annotations.FileConfig;
+import br.com.template.reflexao.ReflexaoUtils;
+import br.com.template.utils.DateUtil;
 import br.com.template.utils.LogUtil;
 
 /**
@@ -26,7 +38,10 @@ import br.com.template.utils.LogUtil;
  * @version 1.0
  */
 
-public abstract class FileUtil {
+public final class FileUtil {
+
+	private FileUtil() {
+	}
 
 	public static byte[] converteInputStreamToArrayByte(InputStream iStream) throws Exception {
 		int i = 0;
@@ -236,4 +251,118 @@ public abstract class FileUtil {
 		}
 		file.delete();
 	}
+
+	public static String gerarArquivoByGeneric(String[] headers, List<?> listArquivoEntity) throws Exception {
+
+		if (listArquivoEntity != null && !listArquivoEntity.isEmpty()) {
+			Class<?> classe = null;
+			List<Field> fields = null;
+			FieldFileConfig annotation = null;
+			String value = null;
+			StringBuilder conteudo = new StringBuilder();
+			StringBuilder linha = null;
+			Object itemTemp;
+			boolean formatter;
+
+			if (headers != null && headers.length > 0) {
+				writerHeader(conteudo, headers);
+			}
+
+			DecimalFormat formatterNumber = (DecimalFormat) NumberFormat.getInstance(Locale.ROOT);
+			DecimalFormatSymbols symbolsFormatter = formatterNumber.getDecimalFormatSymbols();
+			symbolsFormatter.setGroupingSeparator('.');
+			symbolsFormatter.setDecimalSeparator(',');
+			formatterNumber.setDecimalFormatSymbols(symbolsFormatter);
+
+			for (Object arquivoEntity : listArquivoEntity) {
+				// OBTER CLASSE O REGISTRO
+				classe = arquivoEntity.getClass();
+				FileConfig config = classe.getAnnotation(FileConfig.class);
+				formatter = config != null ? config.formatter() : true;
+				// OBTER CAMPOS DA CLASSE
+				fields = ReflexaoUtils.getFields(classe);
+				linha = new StringBuilder();
+				int indexAtual = 1;
+				for (Field field : fields) {
+					// OBTER ANOTAÇÕES DE CONFIGURAÇÃO DO CAMPO
+					annotation = field.getAnnotation(FieldFileConfig.class);
+					if (annotation != null) {
+						field.setAccessible(true);
+						// OBTER VALOR DO CAMPO
+						if (annotation.type().equals(FieldFileConfig.TypeFieldFile.DATA)) {
+							value = DateUtil.formatarData((Date) field.get(arquivoEntity),
+									annotation.mascaraData().getFormato());
+						} else {
+							itemTemp = field.get(arquivoEntity);
+							if (itemTemp != null) {
+								value = itemTemp.toString();
+							} else {
+								value = null;
+							}
+						}
+						if (value == null) {
+							value = "";
+						}
+						if (annotation.type().equals(FieldFileConfig.TypeFieldFile.NUMERO) && !"".equals(value)) {
+							// REGRA PARA TIPO NUMERO, EXIBIR SOMENTE NUMERO:
+							value = value.replaceAll("[a-z|A-Z|\\s]", "");// value.replaceAll("\\D+", "");
+							if (field.getType().equals(BigDecimal.class)) {
+								value = formatterNumber.format(new BigDecimal(value));
+							}
+						}
+						if (formatter && value.length() > annotation.lenght()) {
+							// GARANTIR QUE SÓ IRA ESCREVER O TAMANHO
+							// CONFIGURADO NA
+							// ANOTAÇÃO, MESMO SE O VALOR FOR MAIOR
+							value = value.substring(0, annotation.lenght());
+						}
+						if (annotation.preenchimento() != '?') {
+							if (FieldFileConfig.LadoPreencher.ESQUERDA.equals(annotation.ladoPreencher())) {
+								// PREENCHER CAMPOS VAZIOS A ESQUERDA (CONFIGURAÇÃO
+								// DA
+								// ANOTAÇÃO)
+								value = StringUtils.leftPad(value, annotation.lenght(), annotation.preenchimento());
+							} else {
+								// PREENCHER CAMPOS VAZIOS A DIREITA (CONFIGURAÇÃO
+								// DA
+								// ANOTAÇÃO)
+								value = StringUtils.rightPad(value, annotation.lenght(), annotation.preenchimento());
+							}
+							if (formatter && annotation.start() > indexAtual) {
+								// ADICIONAR ESPAÇOS CASO SE EXISTIR DIFERENÇA ENTRE
+								// AS
+								// POSIÇÕES DAS COLUNAS
+								linha.append(StringUtils.rightPad(" ", annotation.start() - indexAtual));
+							}
+						}
+						// ESCREVER COLUNA NA LINHA
+						if (formatter && indexAtual > annotation.start()) {
+							linha.replace(annotation.start() - 1, (annotation.start() + annotation.lenght() - 1),
+									value);
+						} else {
+							linha.append(value);
+						}
+						linha.append(";");
+						// ATUALIZAR O INDEX ATUAL
+						indexAtual = linha.length() + 1;
+					}
+				}
+				// ESCREVER LINHA NO CONTEUDO
+				conteudo.append(linha);
+				// ADICIONAR QUEBRA DE LINHA
+				conteudo.append(System.lineSeparator());
+			}
+			// RETORNA BYTES DO CONTEUDO GERADO
+			return conteudo.toString();
+		}
+		return null;
+	}
+
+	private static void writerHeader(StringBuilder conteudo, String[] headers) {
+		for (String header : headers) {
+			conteudo.append(header).append(";");
+		}
+		conteudo.append(System.lineSeparator());
+	}
+
 }

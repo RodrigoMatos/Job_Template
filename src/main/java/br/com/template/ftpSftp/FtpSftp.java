@@ -24,7 +24,7 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 
-import br.com.template.constantes.EnumTipoAcessoServidor;
+import br.com.template.enuns.EnumTipoAcessoServidor;
 import br.com.template.model.FtpVO;
 import br.com.template.utils.LogUtil;
 

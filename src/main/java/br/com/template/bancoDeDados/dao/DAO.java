@@ -26,7 +26,7 @@ public abstract class DAO implements Serializable {
 	/**
 	 * @author romatos
 	 * @param tabela - Nome da tabela que ir� apagar os registros.
-	 * @param chave - Chave de conex�o do pool.
+	 * @param chave  - Chave de conex�o do pool.
 	 * @throws Exception
 	 */
 	public static void deletarRegistroTabela(String tabela, String chave) throws Exception {
@@ -50,12 +50,15 @@ public abstract class DAO implements Serializable {
 
 	/**
 	 * @author romatos
-	 * @param consulta - Consulta que ser� executada.
+	 * @param consulta     - Consulta que ser� executada.
 	 * @param chaveConexao - Chave de conex�o do pool.
-	 * @return Retorna uma lista de map, cada linha da lista representa uma linha da consulta e cada item do map representa a coluna (chave do map � o nome da coluna da consulta).
+	 * @return Retorna uma lista de map, cada linha da lista representa uma linha da
+	 *         consulta e cada item do map representa a coluna (chave do map � o
+	 *         nome da coluna da consulta).
 	 * @throws Exception
 	 */
-	public static List<LinkedHashMap<String, Object>> realizarConsultaGenerica(String consulta, String chaveConexao) throws Exception {
+	public static List<LinkedHashMap<String, Object>> realizarConsultaGenerica(String consulta, String chaveConexao)
+			throws Exception {
 
 		List<LinkedHashMap<String, Object>> resultadoConsulta = new ArrayList<LinkedHashMap<String, Object>>();
 		Connection conn = null;
@@ -73,44 +76,48 @@ public abstract class DAO implements Serializable {
 			rs = stmt.executeQuery();
 			while (rs.next()) {
 				registro = new LinkedHashMap<String, Object>();
-				//PREPARAR CABECALHO (NOME DAS COLUNAS COMO PRIMEIRO REGISTRO.
+				// PREPARAR CABECALHO (NOME DAS COLUNAS COMO PRIMEIRO REGISTRO.
 				if (qtdColumn == null) {
 					qtdColumn = rs.getMetaData().getColumnCount();
 					for (int i = 0; i < qtdColumn; i++) {
 						coluna = rs.getMetaData().getColumnName(index++);
 						registro.put(coluna, coluna);
 					}
-					resultadoConsulta.add(registro);//ADICIONANDO O NOME DAS COLUNAS COMO PRIMEIRO REGISTRO
+					resultadoConsulta.add(registro);// ADICIONANDO O NOME DAS COLUNAS COMO PRIMEIRO REGISTRO
 				}
 				index = 1;
-				//PREPARAR REGISTRO DA CONSULTA
+				// PREPARAR REGISTRO DA CONSULTA
 				for (int i = 0; i < qtdColumn; i++) {
 					coluna = rs.getMetaData().getColumnName(index++);
 					registro.put(coluna, rs.getObject(coluna));
 				}
-				resultadoConsulta.add(registro);//ADICIONAR REGISTRO DA CONSULTA
+				resultadoConsulta.add(registro);// ADICIONAR REGISTRO DA CONSULTA
 			}
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			DbUtils.closeQuietly(conn,stmt,rs);
+			DbUtils.closeQuietly(conn, stmt, rs);
 		}
 		return resultadoConsulta;
 	}
 
 	/**
 	 * @author romatos
-	 * @param arquivo - Arquivo que ser� exportado.
-	 * @param consulta - Consulta que ser� executada.
-	 * @param chaveConexao - Chave de conex�o do pool.
-	 * @param separador - Separador que ser� utilizado entre as colunas.
-	 * @param prefixo - Prefixo que ser� adicionado antes dos registros de cada coluna.
-	 * @param sufixo - Sufixo que ser� adicionado antes dos registros de cada coluna.
-	 * @param escreverCabecalho - Escreve o cabe�alho de acordo com o nome das colunas da consulta.
+	 * @param arquivo           - Arquivo que ser� exportado.
+	 * @param consulta          - Consulta que ser� executada.
+	 * @param chaveConexao      - Chave de conex�o do pool.
+	 * @param separador         - Separador que ser� utilizado entre as colunas.
+	 * @param prefixo           - Prefixo que ser� adicionado antes dos registros de
+	 *                          cada coluna.
+	 * @param sufixo            - Sufixo que ser� adicionado antes dos registros de
+	 *                          cada coluna.
+	 * @param escreverCabecalho - Escreve o cabe�alho de acordo com o nome das
+	 *                          colunas da consulta.
 	 * @return Retorna quantidade de linhas exportadas.
 	 * @throws Exception
 	 */
-	public static Integer exportarConsultaParaCsv(File arquivo, String consulta, String chaveConexao, String separador, String prefixo, String sufixo, boolean escreverCabecalho) throws Exception {
+	public static Integer exportarConsultaParaCsv(File arquivo, String consulta, String chaveConexao, String separador,
+			String prefixo, String sufixo, boolean escreverCabecalho) throws Exception {
 
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -146,7 +153,7 @@ public abstract class DAO implements Serializable {
 			while (rs.next()) {
 				primeiraVez = true;
 				// ESCREVER CONTEUDO
-				for (int i = 1; i <= qtdColumn; i++){
+				for (int i = 1; i <= qtdColumn; i++) {
 					if (primeiraVez) {
 						if (rs.getObject(i) == null)
 							out.write(prefixo + "null" + sufixo);

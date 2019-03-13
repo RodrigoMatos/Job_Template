@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -18,29 +19,36 @@ import br.com.template.utils.LogUtil;
  * @version 1.0
  */
 
-public abstract class ExportacaoUtils {
+public final class ExportacaoUtils {
+
+	private ExportacaoUtils() {
+	}
 
 	/**
 	 * @author romatos
-	 * @param arquivo - Caminho do arquivo que ser� exportado.
-	 * @param list - Lista contendo os registros que ser�o exportados.
-	 * @param atributos - Nome dos atributos que ser�o utilizados para preencher os dados do excel.
+	 * @param arquivo   - Caminho do arquivo que ser� exportado.
+	 * @param list      - Lista contendo os registros que ser�o exportados.
+	 * @param atributos - Nome dos atributos que ser�o utilizados para preencher os
+	 *                  dados do excel.
 	 * @param cabecalho - Nome do cabe�alho para o arquivo excel.
 	 * @throws Exception
 	 */
-	public static void exportarListaExcel(String arquivo, List<?> list, List<String> atributos, List<String> cabecalho) throws Exception {
+	public static void exportarListaExcel(String arquivo, List<?> list, List<String> atributos, List<String> cabecalho)
+			throws Exception {
 		exportarListaExcel(new File(arquivo), list, atributos, cabecalho);
 	}
 
 	/**
 	 * @author romatos
-	 * @param arquivo - Arquivo que ser� gerado.
-	 * @param list - Lista contendo os registros que ser�o exportados.
-	 * @param atributos - Nome dos atributos que ser�o utilizados para preencher os dados do excel.
+	 * @param arquivo   - Arquivo que ser� gerado.
+	 * @param list      - Lista contendo os registros que ser�o exportados.
+	 * @param atributos - Nome dos atributos que ser�o utilizados para preencher os
+	 *                  dados do excel.
 	 * @param cabecalho - Nome do cabe�alho para o arquivo excel.
 	 * @throws Exception
 	 */
-	public static void exportarListaExcel(File arquivo, List<?> listaExportar, List<String> atributos, List<String> cabecalho) throws Exception {
+	public static void exportarListaExcel(File arquivo, List<?> listaExportar, List<String> atributos,
+			List<String> cabecalho) throws Exception {
 
 		FileUtil.criarDirs(arquivo.getParentFile());
 		ArquivoExcel arquivoExcel = new ArquivoExcel(arquivo);
@@ -90,40 +98,54 @@ public abstract class ExportacaoUtils {
 
 	/**
 	 * @author romatos
-	 * @param arquivo - Caminho do arquivo que ser� gerado.
-	 * @param consulta - Consulta SQL que ir� conter os arquivo.
-	 * @param chaveConexao - Chave da conex�o do banco que ser� utilizada para consulta. 
-	 * @param separador	- String que ser� inserida entre cada coluna da consulta.
-	 * @param prefixo - String que ser� inserida antes do texto de cada registro.
-	 * @param sufixo - String que ser� inserida depois do texto de cada registro.
-	 * @param escreverCabecalho - Valor que define se ser� adicionado o cabe�alho no arquivo de acordo com a coluna da consulta.
-	 * @throws Exception 
+	 * @param arquivo           - Caminho do arquivo que ser� gerado.
+	 * @param consulta          - Consulta SQL que ir� conter os arquivo.
+	 * @param chaveConexao      - Chave da conex�o do banco que ser� utilizada para
+	 *                          consulta.
+	 * @param separador         - String que ser� inserida entre cada coluna da
+	 *                          consulta.
+	 * @param prefixo           - String que ser� inserida antes do texto de cada
+	 *                          registro.
+	 * @param sufixo            - String que ser� inserida depois do texto de cada
+	 *                          registro.
+	 * @param escreverCabecalho - Valor que define se ser� adicionado o cabe�alho no
+	 *                          arquivo de acordo com a coluna da consulta.
+	 * @throws Exception
 	 */
-	public static void exportarConsultaParaArquivoTexto(String arquivo, String consulta, String chaveConexao, String separador, String prefixo, String sufixo, boolean escreverCabecalho) throws Exception {
+	public static void exportarConsultaParaArquivoTexto(String arquivo, String consulta, String chaveConexao,
+			String separador, String prefixo, String sufixo, boolean escreverCabecalho) throws Exception {
 		File arquivoCsv = new File(arquivo);
 		if (arquivoCsv.getParentFile() != null)
 			FileUtil.criarDirs(arquivoCsv.getParentFile());
-		exportarConsultaParaArquivoTexto(arquivoCsv, consulta, separador, chaveConexao, prefixo, sufixo, escreverCabecalho);
+		exportarConsultaParaArquivoTexto(arquivoCsv, consulta, separador, chaveConexao, prefixo, sufixo,
+				escreverCabecalho);
 	}
 
 	/**
 	 * 
-	 * @param arquivo - Arquivo que ser� gerado.
-	 * @param consulta - Consulta SQL que ir� conter os arquivo.
-	 * @param chaveConexao - Chave da conex�o do banco que ser� utilizada para consulta.
-	 * @param separador	- String que ser� inserida entre cada coluna da consulta.
-	 * @param prefixo - String que ser� inserida antes do texto de cada registro.
-	 * @param sufixo - String que ser� inserida depois do texto de cada registro.
-	 * @param escreverCabecalho - Valor que define se ser� adicionado o cabe�alho no arquivo de acordo com a coluna da consulta.
-	 * @throws Exception 
+	 * @param arquivo           - Arquivo que ser� gerado.
+	 * @param consulta          - Consulta SQL que ir� conter os arquivo.
+	 * @param chaveConexao      - Chave da conex�o do banco que ser� utilizada para
+	 *                          consulta.
+	 * @param separador         - String que ser� inserida entre cada coluna da
+	 *                          consulta.
+	 * @param prefixo           - String que ser� inserida antes do texto de cada
+	 *                          registro.
+	 * @param sufixo            - String que ser� inserida depois do texto de cada
+	 *                          registro.
+	 * @param escreverCabecalho - Valor que define se ser� adicionado o cabe�alho no
+	 *                          arquivo de acordo com a coluna da consulta.
+	 * @throws Exception
 	 */
-	public static void exportarConsultaParaArquivoTexto(File arquivo, String consulta, String chaveConexao, String separador, String prefixo, String sufixo, boolean escreverCabecalho) throws Exception {
-		
+	public static void exportarConsultaParaArquivoTexto(File arquivo, String consulta, String chaveConexao,
+			String separador, String prefixo, String sufixo, boolean escreverCabecalho) throws Exception {
+
 		try {
 			LogUtil.Info("EXPORTANDO ARQUIVO " + arquivo.getAbsolutePath() + " ...");
-			prefixo = prefixo==null?"":prefixo;
-			sufixo = sufixo==null?"":sufixo;
-			int qtdLinhas = DAO.exportarConsultaParaCsv(arquivo, consulta, chaveConexao, separador, prefixo, sufixo, escreverCabecalho);
+			prefixo = prefixo == null ? "" : prefixo;
+			sufixo = sufixo == null ? "" : sufixo;
+			int qtdLinhas = DAO.exportarConsultaParaCsv(arquivo, consulta, chaveConexao, separador, prefixo, sufixo,
+					escreverCabecalho);
 			LogUtil.Info("ARQUIVO EXPORTADO COM SUCESSO (" + qtdLinhas + " LINHAS EXPORTADAS).");
 		} catch (Exception e) {
 			LogUtil.Error("ERRO AO EXPORTAR ARQUIVO: " + e.getMessage());
@@ -133,23 +155,27 @@ public abstract class ExportacaoUtils {
 
 	/**
 	 * @author romatos
-	 * @param consulta - Consulta SQL que ir� conter os arquivo.
-	 * @param dirArquivo - Caminho do arquivo que ser� gerado.
-	 * @param chaveConexao - Chave da conex�o do banco que ser� utilizada para consulta.
+	 * @param consulta     - Consulta SQL que ir� conter os arquivo.
+	 * @param dirArquivo   - Caminho do arquivo que ser� gerado.
+	 * @param chaveConexao - Chave da conex�o do banco que ser� utilizada para
+	 *                     consulta.
 	 * @throws Exception
 	 */
-	public static void exportarConsultaParaArquivoExcel(String consulta, String dirArquivo, String chaveConexao) throws Exception {
+	public static void exportarConsultaParaArquivoExcel(String consulta, String dirArquivo, String chaveConexao)
+			throws Exception {
 		exportarConsultaParaArquivoExcel(consulta, new File(dirArquivo), chaveConexao);
 	}
 
 	/**
 	 * @author romatos
-	 * @param consulta - Consulta SQL que ir� conter os arquivo.
-	 * @param arquivo - Arquivo que ser� gerado.
-	 * @param chaveConexao - Chave da conex�o do banco que ser� utilizada para consulta.
+	 * @param consulta     - Consulta SQL que ir� conter os arquivo.
+	 * @param arquivo      - Arquivo que ser� gerado.
+	 * @param chaveConexao - Chave da conex�o do banco que ser� utilizada para
+	 *                     consulta.
 	 * @throws Exception
 	 */
-	public static void exportarConsultaParaArquivoExcel(String consulta, File arquivo, String chaveConexao) throws Exception {
+	public static void exportarConsultaParaArquivoExcel(String consulta, File arquivo, String chaveConexao)
+			throws Exception {
 
 		FileUtil.criarDirs(arquivo.getParentFile());
 		List<LinkedHashMap<String, Object>> lista = DAO.realizarConsultaGenerica(consulta, chaveConexao);
@@ -169,7 +195,7 @@ public abstract class ExportacaoUtils {
 		int indexLinha = 0;
 
 		for (LinkedHashMap<String, Object> registro : lista) {
-			
+
 			if (nomeColunas == null) {// CRIAR CABE�ALHO
 				nomeColunas = registro.keySet();
 				linha = arquivoExcel.addLinha(aba, indexLinha++);
@@ -186,7 +212,7 @@ public abstract class ExportacaoUtils {
 			for (String coluna : nomeColunas) {
 				valor = registro.get(coluna);
 				celula = arquivoExcel.addCelula(linha, indexCelula++);
-				valor = valor == null?"":valor;
+				valor = valor == null ? "" : valor;
 				try {
 					arquivoExcel.escreverNaCelula(celula, valor.toString());
 				} catch (Exception e) {

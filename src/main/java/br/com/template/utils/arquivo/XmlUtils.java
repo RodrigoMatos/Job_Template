@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -17,19 +18,22 @@ import org.jdom2.input.SAXBuilder;
  * @version 1.0
  */
 
-public abstract class XmlUtils {
+public final class XmlUtils {
 
-	public static List<Map<String,String>> importarElementoXML(String arquivo, String elemento) throws Exception {
+	private XmlUtils() {
+	}
+
+	public static List<Map<String, String>> importarElementoXML(String arquivo, String elemento) throws Exception {
 		File arquivoXML = new File(arquivo);
 		return importarElementoXML(arquivoXML, elemento);
 	}
 
-	public static List<Map<String,String>> importarElementoXML(File arquivo, String elemento) throws Exception {
-		List<Map<String,String>> elementoXML = obterDadosXML(arquivo, elemento);
+	public static List<Map<String, String>> importarElementoXML(File arquivo, String elemento) throws Exception {
+		List<Map<String, String>> elementoXML = obterDadosXML(arquivo, elemento);
 		return elementoXML;
 	}
 
-	private static List<Map<String,String>> obterDadosXML(File arquivo, String elemento) throws Exception {
+	private static List<Map<String, String>> obterDadosXML(File arquivo, String elemento) throws Exception {
 
 		List<Map<String, String>> listElementosXML = new ArrayList<Map<String, String>>();
 		Element arquivoXML = lerXML(arquivo);

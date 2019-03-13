@@ -1,6 +1,6 @@
 package br.com.template.exemplos;
 
-import br.com.template.constantes.EnumTipoAcessoServidor;
+import br.com.template.enuns.EnumTipoAcessoServidor;
 import br.com.template.ftpSftp.FtpSftp;
 import br.com.template.model.FtpVO;
 import br.com.template.utils.arquivo.FileUtil;

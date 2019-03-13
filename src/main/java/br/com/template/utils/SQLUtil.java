@@ -19,7 +19,10 @@ import java.util.Date;
  * @version 1.0
  */
 
-public abstract class SQLUtil {
+public final class SQLUtil {
+
+	private SQLUtil() {
+	}
 
 	public static String clobParaString(Clob clob) {
 		String retorno = null;
@@ -87,10 +90,11 @@ public abstract class SQLUtil {
 	/**
 	 * @author romatos
 	 * @param classe - Classe do objeto que ser� preenchido e retornado.
-	 * @param rs - ResultSet que cont�m os dados da consulta.s
-	 * @return Retorna o objeto preenchido conforme dados do ResultSet.
-	 * Preenche os atribudos do objeto utilizando os metodos sets de acordo com os dados existente no ResultSet.
-	 * As colunas devem possuir os mesmos nomes dos atributos do objeto que ser� preenchido.
+	 * @param rs     - ResultSet que cont�m os dados da consulta.s
+	 * @return Retorna o objeto preenchido conforme dados do ResultSet. Preenche os
+	 *         atribudos do objeto utilizando os metodos sets de acordo com os dados
+	 *         existente no ResultSet. As colunas devem possuir os mesmos nomes dos
+	 *         atributos do objeto que ser� preenchido.
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
 	 * @throws InstantiationException
@@ -99,7 +103,9 @@ public abstract class SQLUtil {
 	 * @throws InvocationTargetException
 	 * @throws SQLException
 	 */
-	public static Object prepararVO(Class<?> classe, ResultSet rs) throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, SQLException {
+	public static Object prepararVO(Class<?> classe, ResultSet rs)
+			throws NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException, SQLException {
 
 		Object objeto = null;
 		if (rs != null && classe != null) {
@@ -110,21 +116,23 @@ public abstract class SQLUtil {
 			int qtdColumn = rs.getMetaData().getColumnCount();
 
 			for (int i = 0; i < qtdColumn; i++) {
-				setValueVO(metodos, objeto, rs.getMetaData().getColumnName(i+1), rs.getObject(i+1));
+				setValueVO(metodos, objeto, rs.getMetaData().getColumnName(i + 1), rs.getObject(i + 1));
 			}
 		}
 		return objeto;
 	}
 
-	private static void setValueVO(Method[] metodos, Object objeto, String name, Object... params) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static void setValueVO(Method[] metodos, Object objeto, String name, Object... params)
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 
 		if ("".equals(name)) {
 			return;
 		}
 		String nomeMetodo;
-		nomeMetodo = "set" + name.subSequence(0, 1).toString().toUpperCase(); //coloca 1� letra em upper
+		nomeMetodo = "set" + name.subSequence(0, 1).toString().toUpperCase(); // coloca 1� letra em upper
 		if (name.length() > 1) {
-			nomeMetodo = nomeMetodo + name.substring(1, name.length()); // coloca o resto do nome do metodo caso seja exista
+			nomeMetodo = nomeMetodo + name.substring(1, name.length()); // coloca o resto do nome do metodo caso seja
+																		// exista
 		}
 		for (Method metodo : metodos) {// procura o metodo que deve executar
 			if (metodo.getName().equals(nomeMetodo)) {

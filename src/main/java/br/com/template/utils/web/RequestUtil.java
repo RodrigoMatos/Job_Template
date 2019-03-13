@@ -2,7 +2,7 @@ package br.com.template.utils.web;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class RequestUtil {
+public final class RequestUtil {
 
 	private RequestUtil() {
 	}

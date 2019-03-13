@@ -27,7 +27,7 @@ public abstract class OracleDAO extends DAO {
 
 	private static final long serialVersionUID = 3622455715697490967L;
 
-	protected static String chave = "SCIENCE";
+	protected static String chave = "BANCO_1";
 
 	public static boolean isAtivo() throws Exception {
 
@@ -37,21 +37,21 @@ public abstract class OracleDAO extends DAO {
 		StringBuilder sql = new StringBuilder();
 		boolean status = false;
 
-		sql.append(" SELECT STR_BLOQUEADO FROM SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ").append(Constantes.PARAM_SEQ_SERVICO_SCIENCE);
+		sql.append(" SELECT IS_ATIVO FROM TABLE WHERE ID = ").append(Constantes.PARAM_SEQ_SERVICO_BANCO);
 
 		try {
 			conn = ConexaoPool.getConnection(chave);
 			stmt = conn.prepareStatement(sql.toString());
 			rs = stmt.executeQuery();
 			if (rs.next()) {
-				String retorno = rs.getString("STR_BLOQUEADO");
+				String retorno = rs.getString("IS_ATIVO");
 				if (retorno != null && retorno.toUpperCase().equals("N"))
 					status = true;
 			}
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			DbUtils.closeQuietly(conn,stmt,rs);
+			DbUtils.closeQuietly(conn, stmt, rs);
 		}
 		return status;
 	}
@@ -110,7 +110,7 @@ public abstract class OracleDAO extends DAO {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			DbUtils.closeQuietly(conn,stmt,rs);
+			DbUtils.closeQuietly(conn, stmt, rs);
 		}
 	}
 
@@ -187,7 +187,7 @@ public abstract class OracleDAO extends DAO {
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			DbUtils.closeQuietly(conn,stmt,rs);
+			DbUtils.closeQuietly(conn, stmt, rs);
 		}
 	}
 
@@ -227,7 +227,7 @@ public abstract class OracleDAO extends DAO {
 		FtpVO ftpRetorno = null;
 
 		sql.append(" SELECT NOM_LOGIN_FTP, STR_SENHA_FTP, STR_HOST_FTP, STR_DIRETORIO ");
-		sql.append(" FROM SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ").append(Constantes.PARAM_SEQ_SERVICO_SCIENCE);
+		sql.append(" FROM SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ").append(Constantes.PARAM_SEQ_SERVICO_BANCO);
 
 		try {
 			conn = ConexaoPool.getConnection(chave);
@@ -256,7 +256,9 @@ public abstract class OracleDAO extends DAO {
 		StringBuilder sql = new StringBuilder();
 		File file = null;
 
-		sql.append("SELECT BLOB_XML_CONFIG, STR_XML_CONFIG_NOME FROM SCIENCE.SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ").append(Constantes.PARAM_SEQ_SERVICO_SCIENCE);
+		sql.append(
+				"SELECT BLOB_XML_CONFIG, STR_XML_CONFIG_NOME FROM SCIENCE.SERVICO_SCIENCE WHERE SEQ_SERVICO_SCIENCE = ")
+				.append(Constantes.PARAM_SEQ_SERVICO_BANCO);
 
 		try {
 			conn = ConexaoPool.getConnection(chave);
@@ -271,11 +273,11 @@ public abstract class OracleDAO extends DAO {
 				if (nomeArquivo == null || "".equals(nomeArquivo)) {
 					nomeArquivo = "configErbProjetoAntena.xml";
 				}
-				byte [] array = blob.getBytes(1, (int) blob.length());
-			    file = File.createTempFile(nomeArquivo, "", new File("."));
-			    FileOutputStream out = new FileOutputStream(file);
-			    out.write(array);
-			    out.close();
+				byte[] array = blob.getBytes(1, (int) blob.length());
+				file = File.createTempFile(nomeArquivo, "", new File("."));
+				FileOutputStream out = new FileOutputStream(file);
+				out.write(array);
+				out.close();
 			}
 		} catch (Exception e) {
 			throw e;
