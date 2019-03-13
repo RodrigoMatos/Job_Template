@@ -8,7 +8,7 @@ public class Main {
 	public static void main(String[] args) {
 
 		/**
-		 * Dados da ultima alteração.
+		 * Dados da ultima alteraï¿½ï¿½o.
 		 * @author romatos
 		 * @version 16/01/2017 
 		 */
@@ -44,8 +44,8 @@ public class Main {
 //		System.out.println(servidor.toString());
 
 //		ArquivoTextoExemplos.escreverAquivoTxt();
-
-		ArquivoExcelExemplos.exportarLista();
+		ArquivoExcelExemplos.alterarExcel();
+//		ArquivoExcelExemplos.exportarLista();
 //		ArquivoExcelExemplos.exportarConsulta();
 
 		System.exit(0);
