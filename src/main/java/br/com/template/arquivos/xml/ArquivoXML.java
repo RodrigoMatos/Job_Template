@@ -25,8 +25,7 @@ public abstract class ArquivoXML implements Serializable {
 
 		SAXBuilder sb = new SAXBuilder();
 		Document d = sb.build(fXmlFile);
-		Element conteudo = d.getRootElement();
-		return conteudo;
+		return d.getRootElement();
 	}
 
 	@SuppressWarnings("rawtypes")
