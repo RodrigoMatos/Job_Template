@@ -1,29 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/bonecp-0.8.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="lib/guava-14.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="lib/ojdbc5.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="lib/commons-net-1.4.1.jar"/>
-	<classpathentry kind="lib" path="lib/jakarta-oro-2.0.1.jar"/>
-	<classpathentry kind="lib" path="lib/jsch-0.1.51.jar"/>
-	<classpathentry kind="lib" path="lib/commons-compress-1.5.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.7.12.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.12.jar"/>
-	<classpathentry kind="lib" path="lib/jdom-2.0.6.jar"/>
-	<classpathentry kind="lib" path="lib/dom4j.jar"/>
-	<classpathentry kind="lib" path="lib/poi-3.8-20120326.jar"/>
-	<classpathentry kind="lib" path="lib/poi-ooxml-3.8-20120326.jar"/>
-	<classpathentry kind="lib" path="lib/poi-ooxml-schemas-3.8-20120326.jar"/>
-	<classpathentry kind="lib" path="lib/poi-scratchpad-3.8-20120326.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang.jar"/>
-	<classpathentry kind="lib" path="lib/easgz.jar"/>
-	<classpathentry kind="lib" path="lib/xmlbeans-2.3.0.jar"/>
-	<classpathentry kind="lib" path="lib/commons-dbutils-1.6.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang3-3.6.jar"/>
-	<classpathentry kind="lib" path="lib/javax.servlet-3.0.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="src" output="target/classes" path="src/main/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="src" output="target/test-classes" path="src/test/java">
+		<attributes>
+			<attribute name="optional" value="true"/>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="test" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

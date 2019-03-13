@@ -2,6 +2,40 @@
 Thumbs.db
 ehthumbs.db
 
+/target/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+*.class
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/build/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+# Visual Studio Code code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+
+
 # Folder config file
 Desktop.ini
 
@@ -49,3 +83,4 @@ D/TesteSftp/RS3-Base_Dados_Fisicos-V20160826.xlsx
 /bin/
 
 
+/target/
