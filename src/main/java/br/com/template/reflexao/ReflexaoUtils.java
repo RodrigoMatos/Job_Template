@@ -58,7 +58,7 @@ public final class ReflexaoUtils {
 	public static Object executarMetodo(Object entidade, String nomeMetodo, Object... parametros) {
 
 		try {
-			if (entidade != null && !StringUtils.isNotBlank(nomeMetodo)) {
+			if (entidade != null && StringUtils.isNotBlank(nomeMetodo)) {
 				return prepararExecutarMetodo(entidade.getClass(), entidade, nomeMetodo, parametros);
 			} else {
 				throw new ConfigurationException(
